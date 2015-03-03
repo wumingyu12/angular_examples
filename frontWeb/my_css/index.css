@@ -1,0 +1,11 @@
+/*20150303--用于index.html的css*/
+
+.my-left-botton{ 
+	padding: 10px;
+	background-color: lightskyblue ;
+	margin: 20px;
+}
+.my-left-pan{ 
+	height: 600px;
+	background-color:rgb(230,230,230);
+}

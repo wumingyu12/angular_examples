@@ -62,6 +62,7 @@ func main() {
 	http.Handle("/view/", http.FileServer(http.Dir("frontWeb")))
 	//view/xxx/xxx的文件在frontweb里面找
 	http.Handle("/frame/", http.FileServer(http.Dir("frontWeb")))
+	http.Handle("/my_css/", http.FileServer(http.Dir("frontWeb")))
 	//这里的handle当一个连接过来的时候都会多开一个wshandler
 	//http.Handle("/ws", websocket.Handler(wshandler.WsHandler)) //响应了ws://127.0.0.1/ws的websocket
 
