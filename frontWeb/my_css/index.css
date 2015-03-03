@@ -5,7 +5,14 @@
 	background-color: lightskyblue ;
 	margin: 20px;
 }
+.my-left-botton:hover{ 
+	background-color: sandybrown !important; /*鼠标悬停 important代表相同调件下优先级最高*/
+}
 .my-left-pan{ 
 	height: 600px;
 	background-color:rgb(230,230,230);
+}
+.my-test-inline{ 
+	display:inline-block;
+	vertical-align:middle;
 }
