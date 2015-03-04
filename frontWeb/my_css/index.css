@@ -10,9 +10,18 @@
 }
 .my-left-pan{ 
 	height: 600px;
+	margin-top: 10px;
 	background-color:rgb(230,230,230);
 }
 .my-test-inline{ 
 	display:inline-block;
 	vertical-align:middle;
+}
+
+.my-right-pan{ 
+	height: 600px;
+	width: 900px;
+	background-color:wheat ;
+	margin-left: 20px;
+	margin-top: 10px;
 }
