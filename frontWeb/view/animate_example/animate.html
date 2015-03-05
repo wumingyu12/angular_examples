@@ -1,11 +1,16 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" ng-app="Ani_app"><!--与angular.module函数对应-->
 <head>
 	<meta charset="UTF-8">
 	<title>me-animate.css</title>
 	<link rel="stylesheet" href="/frame/bootstrap/bootstrap.css">
+	<script src="/frame/angular_js/angular.js"></script>
+    <!--angular路由要在angular之后引入-->
+    <script src="/frame/angular_js/angular-ui-router.js"></script>
+    <script src="/frame/angular_js/angular-animate.js"></script>
+    <script src="ani_app.js"></script><!--angular主控制器-->
 </head>
-<body>
+<body ng-controller="mainCtrl"><!--主控制器-->
 	<div class="container">
 		<div class="row"><!--第一行-->
 			<div class="col-md-offset-3 col-md-6">
@@ -56,10 +61,15 @@
         			</select>
         		</div>
         		<div class="col-md-4 "><!--第五行第3列-->
-        			<button class="btn btn-primary">
-        				执行动画
+        			<button class="btn btn-primary" ng-click="toggleState()">
+        				变换状态
         			</button>
         		</div>
+        	</div>
+        </div>
+        <div class="row"><!--第六行路由显示-->
+        	<div class="col-md-6 col-md-offset-3">
+        		<div ui-view></div>
         	</div>
         </div>
 	</div>
