@@ -1,11 +1,51 @@
 <!doctype html>
-<html ng-app>
+<html lang="zh-CN" ng-app="MyApp">
     <head>
+    	<meta charset="utf-8">
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+    	<!--bootstrap-->
+    	<link rel="stylesheet" href="/frame/bootstrap/bootstrap.css">
+		<link rel="stylesheet" href="/frame/font-awesome-4.3.0/css/font-awesome.css"><!--图标集-->
+		<link rel="stylesheet" href="/my_css/index.css">
+		<!--===============脚本=====================-->
         <script src="/frame/angular_js/angular.js"></script>
+        <!--angular路由要在angular之后引入-->
+        <script src="/frame/angular_js/angular-ui-router.js"></script>
+        <script src="/js/App.js"></script>
+
     </head>
     <body>
-        Your name: <input type="text" ng-model="yourname" placeholder="World">
-        <hr>
-        Hello {{yourname || 'World'}}!
+    <div class="cantainer">
+	<div class="row">
+		<div class="col-md-3 my-left-pan">
+			<!--左侧菜单面板-->
+			<div class="list-group">
+				<a class="list-group-item my-left-botton" href="＃"> <i class="fa fa-home fa-fw fa-5x" style="vertical-align:middle;"></i>
+					<h1 class="my-test-inline">Home</h1>
+				</a>
+				<a class="list-group-item my-left-botton" href="＃"> <i class="fa fa-book fa-fw fa-5x" style="vertical-align:middle;"></i>
+					<h1 class="my-test-inline" >Home</h1>
+				</a>
+				<a class="list-group-item my-left-botton" href="＃">
+					<i class="fa fa-pencil fa-fw fa-5x" style="vertical-align:middle;"></i>
+					<h1 class="my-test-inline">Home</h1>
+				</a>
+				<a class="list-group-item my-left-botton" href="＃">
+					<i class="fa fa-cog fa-fw fa-5x" style="vertical-align:middle;"></i>
+					<h1 class="my-test-inline">Home</h1>
+				</a>
+			</div>
+		</div>
+		<div class="col-md-9 my-right-pan">
+		    <div>
+		    	Your name:
+		    	<input type="text" ng-model="yourname" placeholder="World">		    	        
+		    	<hr>		    	        
+		    	Hello {{yourname || 'World'}}!
+		    </div>
+		</div>
+	</div>
+</div>
+
     </body>
 </html>
