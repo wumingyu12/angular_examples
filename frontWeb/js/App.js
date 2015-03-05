@@ -23,6 +23,14 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
             controller: function($scope) {
                 $scope.things = ["A", "Set", "Of", "Things"];
             }
-        });
+        })
+        .state('state3',{
+            url: "/state3",
+            templateUrl: "tpls/state3.html"
+        })
+		.state('state4',{
+			url:"/state4",
+			templateUrl:"tpls/state4.html"
+		});
 });
 
