@@ -1,4 +1,4 @@
-var myApp = angular.module('MyApp', ['ui.router']);//[]里可以注入模块
+var myApp = angular.module('MyApp', ['ui.router','ngAnimate']);//[]里可以注入模块
 myApp.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/state1");
     $stateProvider

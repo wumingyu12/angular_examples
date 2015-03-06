@@ -5,12 +5,14 @@
     	<meta name="viewport" content="width=device-width, initial-scale=1">
     	<!--bootstrap-->
     	<link rel="stylesheet" href="/frame/bootstrap/bootstrap.css">
+    	<link rel="stylesheet" href="/frame/animate_css/animate.css">
 		<link rel="stylesheet" href="/frame/font-awesome-4.3.0/css/font-awesome.css"><!--图标集-->
 		<link rel="stylesheet" href="/my_css/index.css">
 		<!--===============脚本=====================-->
         <script src="/frame/angular_js/angular.js"></script>
         <!--angular路由要在angular之后引入-->
         <script src="/frame/angular_js/angular-ui-router.js"></script>
+        <script src="/frame/angular_js/angular-animate.js"></script>
         <script src="/js/App.js"></script>
 
     </head>
@@ -38,8 +40,10 @@
 				<a href="/view/animate_example/animate.html">angular动画示范用animate库</a>
 			</div>
 		</div>
-		<div class="col-md-9" ui-view>
+		<div class="col-md-9 ">
+			<div ui-view class="animated zoomIn zoomOut"><!--加多层div使动画限制在col-md-9里面-->
     		<!-- ui-rounter初始状态的显示处 -->
+    		</div>
 		</div>
 	</div>
 </div>
