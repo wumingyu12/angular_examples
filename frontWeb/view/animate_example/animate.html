@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<title>me-animate.css</title>
 	<link rel="stylesheet" href="/frame/bootstrap/bootstrap.css">
+	<link rel="stylesheet" href="/frame/animate_css/animate.css">
 	<script src="/frame/angular_js/angular.js"></script>
     <!--angular路由要在angular之后引入-->
     <script src="/frame/angular_js/angular-ui-router.js"></script>
@@ -29,9 +30,8 @@
 								<option value="{{normalAnimation}}" ng-bind="normalAnimation" ng-repeat="normalAnimation in normalAnimations"></option>
 							</select>
 						</div>
-						<div class="col-md-6"><!--第二行,第二列-->
-							<button class="btn btn-primary btn-block">
-								ff
+						<div class="col-md-6"><!--第二行,第二列，开始单个元素的动画-->
+							<button class="btn btn-primary btn-block" ng-click="toggleAnimate()" ng-bind="toggleText">
 							</button>
 						</div>
 					</div>
@@ -41,7 +41,7 @@
 		<br />
 		<div class="row"><!--第三行-->
 			<div class="col-md-offset-3 col-md-6 text-center">
-				<button class="btn btn-warning ">
+				<button class="btn btn-warning " ng-class="getAnimate()"><!--添加动画-->
 				Example
 				</button>
 			</div>
@@ -53,15 +53,17 @@
         </div>
         <div class="row"><!--第五行-->
         	<div class="col-md-offset-3 col-md-6">
-        		<div class="col-md-4"><!--第五行第1列-->
-        			<select class="form-control">
-        				
-        			</select>
+        		<div class="col-md-4"><!--第五行第1列，下拉选择-->
+					<select class="form-control" ng-model="inAnimation">
+						<option value="选择入场动画" ng-if="inAnimation=='选择入场动画'">选择入场动画</option>
+						<option value="{{inAnimation}}" ng-bind="inAnimation" ng-repeat="inAnimation in inAnimations"></option>
+					</select>
         		</div>
-        		<div class="col-md-4"><!--第五行第2列-->
-        			<select class="form-control">
-        				
-        			</select>
+        		<div class="col-md-4"><!--第五行第2列,下拉选择-->
+					<select class="form-control" ng-model="outAnimation">
+						<option value="选择退场动画" ng-if="outAnimation=='选择退场动画'">选择退场动画</option>
+						<option value="{{outAnimation}}" ng-bind="outAnimation" ng-repeat="outAnimation in outAnimations"></option>
+					</select>
         		</div>
         		<div class="col-md-4 "><!--第五行第3列-->
         			<button class="btn btn-primary" ng-click="toggleState()">
@@ -72,7 +74,7 @@
         </div>
         <div class="row"><!--第六行路由显示-->
         	<div class="col-md-6 col-md-offset-3">
-        		<div ui-view></div>
+        		<div ui-view class="animated" ng-class="getClass()"></div>
         	</div>
         </div>
 	</div>
