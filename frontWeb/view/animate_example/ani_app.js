@@ -1,5 +1,5 @@
 var ani_app=angular.module('Ani_app', ['ui.router', 'ngAnimate']);
-//路由配置
+//==================路由配置====================================
 ani_app.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/state1");
     $stateProvider
@@ -14,8 +14,15 @@ ani_app.config(function($stateProvider, $urlRouterProvider) {
             controller:'state2'
         });
 });
-//主控制器
-ani_app.controller('mainCtrl', ['$scope','$location', function($scope,$location){
+//====================主控制器===================================
+ani_app.controller('mainCtrl', ['$scope','$location','$http', function($scope,$location,$http){
+	$scope.normalAnimation = '选择动画';//nomal动画的选项目
+	//请求json数据
+	$http.get('animate.json').success(
+		function(data){ 
+		$scope.normalAnimations=data.normalAnimations;
+	});
+	//web路由状态切换函数
 	$scope.toggleState = function(){
         if($location.path() == '/state1'){
             $location.path('/state2');//用$location改变地址
@@ -23,8 +30,9 @@ ani_app.controller('mainCtrl', ['$scope','$location', function($scope,$location)
             $location.path('/state1');
         }
     };
+
 }]);
-//控制器
+//================================其他控制器=========================
 ani_app.controller('state1', ['$scope', function($scope){
 
 }]);

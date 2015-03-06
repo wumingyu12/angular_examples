@@ -21,9 +21,12 @@
 			<div class="row">
 				<div class="col-md-offset-3 col-md-6">
 					<div class="row">
-						<div class="col-md-6"><!--第二行,第一列-->
-							<select class="form-control">
-								
+						<div class="col-md-6"><!--第二行,第一列选择下拉-->
+							<select class="form-control" ng-model="normalAnimation">
+								<!--这一句会使只有在第一次加载时才会有这个选项，ng-if决定该元素是否创建-->
+								<option value="选择动画" ng-if="normalAnimation=='选择动画'">选择动画</option>
+								<!--ng-bind="normalAnimation"等效于在标签里面放了{{normalAnimation}}-->
+								<option value="{{normalAnimation}}" ng-bind="normalAnimation" ng-repeat="normalAnimation in normalAnimations"></option>
 							</select>
 						</div>
 						<div class="col-md-6"><!--第二行,第二列-->
