@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>显示隐藏侧边栏</title>
+	<style type="text/css">
+		*{margin: 0;padding: 0;}/* 消除所有标记的内外补丁默认值 */
+		#left,#right{height: 620px;}
+		#left{background:#CCC;}/* 定义背景颜色，用于区分左右容器 */
+		#right{background:#f5f5f5;}/* 同上 */
+
+		.left{float:left;width:20%;display:block;} /* 定义左边容器的宽度 */
+		.right{float:left;width:80%;display:block;clear:right;} /* 定义右边容器的宽度 */
+		.left1{width:0%;display:none;} /* 定义左边容器收拢时的状态：隐藏 */
+	</style>
+
+	<script type="text/javascript">
+		function pr()
+		{
+			var L=document.getElementById("left"); // 变量：L代表 id="left" 的标记
+			var R=document.getElementById("right"); // 变量：R代表 id="right" 的标记
+			if (L.className=="left") // 判断：如果 id="left" 的class值 等于left的话，将执行下面{}里面的内容
+	        {
+                L.className="left1"; // 给 id="left" 的标记 加上class：left1
+                R.className=" "; // id="right" 的标记 加上class：空格，也就是消除class
+	        }
+			else // 判断：如果 id="left" 的class值 不等于left的话，将执行下面{}里面的内容
+	        {
+                L.className="left"; // 给 id="left" 的标记 加上class：left
+                R.className="right"; // 给 id="right" 的标记 加上class：right
+	        }
+		}
+</script>
+</head>
+<body>
+	<div id="left" class="left"></div>
+	<div id="right" class="right">
+		<a href="javascript:pr()">显示/隐藏</a>
+		俺是个js初学者，献丑了。这段js演示其实很简单，俺在这里只是想跟js大大们说一句：js是行为，不要跟样式表打架。有些事还是该由css来做的，例如：display:none || display:block，简直泛滥成灾了！俺只会玩玩css，拿到js不会改，不敢改，唉。明明一个class就能甩给css做的事，js为啥要抢着做呢？搞得俺们这些会点css滴菜鸟们好是郁闷~难道玩css就一定要会js么？
+	</div>
+</body>
+</html>
