@@ -1,0 +1,30 @@
+<html lang="en-US">
+<head>
+	<title>Responsive Type with CSS - by Dapper Gentlemen</title>
+	<link href="test.css" rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="/frame/font-awesome-4.3.0/css/font-awesome.css"><!--图标集-->
+</head>
+
+<body>
+	<header>
+		<h1>
+			VM实现自适应屏幕字体,字体图标
+		</h1>
+		<span><i class="fa fa-pencil fa-fw" style="font-size:10vh;"></i>大小与视窗的高有关</span>
+
+    </header>
+  
+	<section>
+		<h2>他是怎样工作的</h2>
+    	<p>
+    		其实非常简单。一个单位相于当前视图窗口大小的1%，宽度和高度是不同的，分别用(vw, vh)表示。你可以通过vmin和vmax设置最大最小值。
+    	</p>
+		<p>
+			  1vw = 当前视图窗口（viewport）1%的宽度<br>
+  			  1vh = 当前视图窗口（viewport）1%的高度<br>
+  			  1vmin = 1vw 或 1vh， 取决于哪个更小一点<br>
+  			  1vmax = 1vw 或 1vh， 取决于哪个更大一点<br>
+	    </p>
+	</section>
+</body>
+</html>
