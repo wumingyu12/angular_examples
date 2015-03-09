@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN" ng-app="myapp">
+	<head>
+		<meta charset="utf-8">
+		<script src="/frame/angular_js/angular.js"></script>
+		<script src="/frame/angular.treeview/angular.treeview.js"></script>
+		<link rel="stylesheet" href="/frame/angular.treeview/css/angular.treeview.css">
+		<script src="myapp.js"></script>
+	</head>
+	<body>
+		<h1>使用</h1>
+		<p>	angular-treeview: the treeview directive<br>
+		tree-id : each tree's unique id.<br>
+		tree-model : the tree model on $scope.<br>
+		node-id : each node's id<br>
+		node-label : each node's label<br>
+		node-children: each node's children</p>
+		<!-- 使用主体 -->
+		<div ng-controller="treeViewCtrl"
+		    data-angular-treeview="true"
+		    data-tree-id="abc"
+		    data-tree-model="treedata"
+		    data-node-id="id"
+		    data-node-label="label"
+		    data-node-children="children" >
+		</div>
+	</body>
+</html>
