@@ -3,7 +3,6 @@ var MyApp=angular.module('myapp', ['ui.bootstrap']);
 MyApp.controller('AccordionDemoCtrl', function ($scope) {
 	$scope.oneAtATime = true;
 
-	$scope.test="无";
 	$scope.groups = [
 	    {
 	      title: 'Dynamic Group Header - 1',

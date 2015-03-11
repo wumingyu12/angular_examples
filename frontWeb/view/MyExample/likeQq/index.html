@@ -13,14 +13,18 @@
 		<h3>{{test}}</h3>
 		<button ng-click="show()">show,console.log</button>
 	</div>
-
-	<div>
+	
+	<div ng-controller="ueCtrl">
 		<h1>完整demo</h1>
 		<script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>
+		<button onclick=" UE.getEditor('editor').setHide()">隐藏编辑器</button>
+        <button onclick=" UE.getEditor('editor').setShow()">显示编辑器</button>
+        <button ng-click="setShow()">ng显示编辑器</button>
+		<script type="text/javascript">
+			var ue = UE.getEditor('editor');
+			//一定要在上面的dom的后面要不还没创建是不能得到id的
+		</script>
 	</div>
-	<script type="text/javascript">
-		var ue = UE.getEditor('editor');
-		//一定要在上面的dom的后面要不还没创建是不能得到id的
-	</script>
+
 </body>
 </html>
