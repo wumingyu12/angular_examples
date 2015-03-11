@@ -21,8 +21,8 @@
 			</div>
 			<div ng-controller="ueCtrl" class="col-md-9 col-sm-9 my-right-pan well">
 				<!-- 消息框 -->
-				<div class="my-rightTop-pan well">
-					<div ng-bind-html="msg"></div>
+				<div class="my-rightTop-pan well" style="padding:2px 2px;overflow-y:auto;" ng-bind-html="msgs">
+					
 				</div>
 				<!-- 编辑框 -->
 				<div class="my-rightBottom-pan">
