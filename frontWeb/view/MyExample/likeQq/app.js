@@ -14,7 +14,7 @@ MyApp.filter('to_trusted', ['$sce', function ($sce) {
 	};
 }]);
 //控制器
-MyApp.controller('ueCtrl', function ($scope , $sce) {
+MyApp.controller('ueCtrl', function ($scope) {
 	$scope.msgs='<p><span style="color: rgb(141, 179, 226);">方芳芳</span><br/></p>';
 
 	$scope.setShow=function(){
@@ -23,7 +23,12 @@ MyApp.controller('ueCtrl', function ($scope , $sce) {
 	};
 
 	$scope.sendMsg=function(){
-		$scope.msgs=$scope.msgs+'<div>'+ue.getContent()+'</div>';//引用了外部的全局变量
+		$scope.msgs=$scope.msgs+'\
+		<h5 style="padding:0px;margin:0px 0px 0px 10px;">我：</h5>\
+		<div class="well" style="padding:2px;margin:5px 0px 10px 30px;background-color:rgb(200,200,230);\
+		    width:auto; display:inline-block !important;">\
+        	'+ue.getContent()+'\
+        </div>';//引用了外部的全局变量
 		console.log(ue.getContent());
 	};
 });
