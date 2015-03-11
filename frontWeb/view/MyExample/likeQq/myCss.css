@@ -1,3 +1,6 @@
+.my-root-pan{ 
+	margin-top: 10px;
+}
 .my-left-pan{ 
 	background-color:rgb(230,230,230);
 	height: 600px;
@@ -8,7 +11,7 @@
 }
 .my-rightTop-pan{ 
 	background-color:rgb(23,230,230);
-	height: 400px;
+	height: 350px;
 }
 .my-rightBottom-pan{ 
 	background-color:rgb(220,230,230);
