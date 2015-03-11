@@ -3,28 +3,46 @@
 <head>
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="/frame/bootstrap/css/bootstrap.css">
+	<link rel="stylesheet" href="myCss.css">
 	<script src="/frame/angular_js/angular.js"></script>
 	<script type="text/javascript" charset="utf-8" src="/frame/ueditor/ueditor.config.js"></script>
 	<script type="text/javascript" charset="utf-8" src="/frame/ueditor/ueditor.all.js"> </script>
 	<script src="app.js"></script>
 </head>
 <body>
+	<div class="container">
+		<div class="row">
+			<!-- 好友列表 -->
+			<div class="col-md-3 my-left-pan">
+				ff	
+			</div>
+			<div class="col-md-9 my-right-pan">
+				<!-- 消息框 -->
+				<div class="my-rightTop-pan">
+					
+				</div>
+				<!-- 编辑框 -->
+				<div class="my-rightBottom-pan">
+					<div ng-controller="ueCtrl">
+						<script id="editor" type="text/plain" style="width:100%;height:100px;"></script>
+						<button onclick=" UE.getEditor('editor').setHide()">隐藏编辑器</button>
+				        <button onclick=" UE.getEditor('editor').setShow()">显示编辑器</button>
+				        <button ng-click="setShow()">ng显示编辑器</button>
+						<script type="text/javascript">
+							var ue = UE.getEditor('editor');
+							//一定要在上面的dom的后面要不还没创建是不能得到id的
+						</script>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div ng-controller="testCtrl">
 		<h3>{{test}}</h3>
 		<button ng-click="show()">show,console.log</button>
 	</div>
 	
-	<div ng-controller="ueCtrl">
-		<h1>完整demo</h1>
-		<script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>
-		<button onclick=" UE.getEditor('editor').setHide()">隐藏编辑器</button>
-        <button onclick=" UE.getEditor('editor').setShow()">显示编辑器</button>
-        <button ng-click="setShow()">ng显示编辑器</button>
-		<script type="text/javascript">
-			var ue = UE.getEditor('editor');
-			//一定要在上面的dom的后面要不还没创建是不能得到id的
-		</script>
-	</div>
+
 
 </body>
 </html>
