@@ -7,6 +7,21 @@ MyApp.controller('testCtrl', function ($scope) {
 		console.log("ffffffff");
 	};
 });
+//指令，当div改变时，滚动条到最底部,通过对指令赋值监测此值的变化
+MyApp.directive('scrollToBottom', function(){
+    return {
+        restrict: 'A',
+        scope: {
+            trigger: '=scrollToBottom'
+        },
+        link: function postLink(scope, elem) {
+            scope.$watch('trigger', function() {
+                //elem[0].scrollTop = 0;
+                elem[0].scrollTop=elem[0].scrollHeight;
+            });
+        }
+    };
+});
 //过滤器，可以让ng-blind-html可以绑定带style的html
 MyApp.filter('to_trusted', ['$sce', function ($sce) {
 	return function (text) {
@@ -16,7 +31,7 @@ MyApp.filter('to_trusted', ['$sce', function ($sce) {
 //控制器
 MyApp.controller('ueCtrl', function ($scope) {
 	$scope.msgs='<p><span style="color: rgb(141, 179, 226);">方芳芳</span><br/></p>';
-
+	$scope.msgCount=0;//
 	$scope.setShow=function(){
 		ue.setShow();//引用了外部的全局变量
 		console.log("显示编辑界面");
@@ -29,6 +44,16 @@ MyApp.controller('ueCtrl', function ($scope) {
 		    width:auto; display:inline-block !important;">\
         	'+ue.getContent()+'\
         </div>';//引用了外部的全局变量
-		console.log(ue.getContent());
+		//console.log($scope.hasNewDiv);
+		$scope.msgCount=$scope.msgCount+1;
+
+		$scope.msgs=$scope.msgs+'\
+		<div class="text-right">\
+			<h5 style="padding:0px;margin:0px 0px 0px 10px;">机器人：</h5>\
+			<div class="well" style="padding:2px;margin:5px 30px 10px 30px;background-color:rgb(100,180,230);\
+		        width:auto; display:inline-block !important;">\
+        	    '+ue.getContent()+'\
+            </div>\
+        </div>';//引用了外部的全局变量
 	};
 });
