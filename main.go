@@ -9,6 +9,7 @@ import (
 	//"net"
 	"net/http"
 	//"strings"
+	"github.com/gorilla/mux" //路由库
 )
 
 //func IndexHandler(w http.ResponseWriter, r *http.Request) {
@@ -57,6 +58,13 @@ func NotFoundHandler(w http.ResponseWriter, r *http.Request) { //如果路由规
 	t.Execute(w, nil)
 }
 
+//测试路由变量
+func TestHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r) //r为*http.Request
+	key := vars["key"]
+	fmt.Println(key)
+}
+
 func main() {
 
 	http.Handle("/view/", http.FileServer(http.Dir("frontWeb")))
@@ -69,7 +77,13 @@ func main() {
 
 	//http.HandleFunc("/index", IndexHandler) //不用这个带控制器的路由导致带angular的index无法正常加载
 	//http.HandleFunc("/login", login)
-	http.HandleFunc("/", NotFoundHandler) //当没有找到路径名字时
+
+	mux_router := mux.NewRouter() //用mux库做路由
+	mux_router.HandleFunc("/", NotFoundHandler)
+	mux_router.HandleFunc("/{key}", TestHandler) //测试路由变量
+	http.Handle("/", mux_router)                 //这一句别忘了 否则前面的mux_router是不作用的
+
+	//http.HandleFunc("/", NotFoundHandler) //当没有找到路径名字时，后面改为用mux库了
 	err1 := http.ListenAndServe(":80", nil)
 	if err1 != nil {
 		log.Fatal("ListenAndServe:", err1)
