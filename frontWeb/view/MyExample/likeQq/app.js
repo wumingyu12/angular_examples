@@ -1,4 +1,33 @@
-var MyApp=angular.module('myapp', ['ngSanitize']);//ngSanitize指令ng-blind-htmld
+var MyApp=angular.module('myapp', ['ngSanitize','ngResource']);//ngSanitize指令ng-blind-html,ngResource提供resetful服务
+//restful服务
+MyApp.factory('ReOnlineUsers',['$resource',function($resource){ 
+	return $resource('restful/onlineUsers/:userId',
+		{userId:1}
+	);
+}]);
+//抽象restful作为更高级的服务在线用户的api
+MyApp.factory('onlineUsers',['$q','ReOnlineUsers',function($q,ReOnlineUsers){ 
+	return {
+        getById:function(id){
+            var defer = $q.defer();//一个异步处理
+            ReOnlineUsers.get({userId:id},function(data,headers){//成功返回，用到ReOnlineUsers,data为返回的json，headers为头
+                defer.resolve(data);
+            },function(data,headers){//失败返回
+                defer.reject(data);
+            });
+            return defer.promise//返回承诺
+        },
+        query:function(){
+            var defer = $q.defer();
+            ReOnlineUsers.query(function(data,headers){
+                defer.resolve(data);
+            },function(data,headers){
+                defer.reject(data);
+            });
+            return defer.promise
+        }
+    }
+}]);
 //控制器
 MyApp.controller('testCtrl', function ($scope) {
 	$scope.test = "你是谁";
@@ -14,7 +43,7 @@ MyApp.directive('scrollToBottom', function(){
         scope: {
             trigger: '=scrollToBottom'
         },
-        link: function postLink(scope, elem) {
+        link: function postLink(scope, elem) {//elem为jquery对象
             scope.$watch('trigger', function() {
                 //elem[0].scrollTop = 0;
                 elem[0].scrollTop=elem[0].scrollHeight;
