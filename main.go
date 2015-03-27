@@ -63,6 +63,7 @@ func TestHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r) //r为*http.Request
 	key := vars["key"]
 	fmt.Println(key)
+	fmt.Fprintf(w, key) //向浏览器发送json或者字符串，这里是变量
 }
 
 func main() {
