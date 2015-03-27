@@ -58,16 +58,20 @@ func NotFoundHandler(w http.ResponseWriter, r *http.Request) { //如果路由规
 	t.Execute(w, nil)
 }
 
-//测试路由变量
-func TestHandler(w http.ResponseWriter, r *http.Request) {
+//restful服务，在线用户列表,通过id
+func GetOnlineUserById(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r) //r为*http.Request
-	key := vars["key"]
-	fmt.Println(key)
-	fmt.Fprintf(w, key) //向浏览器发送json或者字符串，这里是变量
+	userId := vars["id"]
+	fmt.Println(userId)
+	fmt.Fprintf(w, userId) //向浏览器发送json或者字符串，这里是变量
 }
 
+//rstful服务，得到所有在线用户
+func GetOnlineUsers(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "all")
+	fmt.Println("all")
+}
 func main() {
-
 	http.Handle("/view/", http.FileServer(http.Dir("frontWeb")))
 	//view/xxx/xxx的文件在frontweb里面找
 	http.Handle("/frame/", http.FileServer(http.Dir("frontWeb")))
@@ -81,8 +85,9 @@ func main() {
 
 	mux_router := mux.NewRouter() //用mux库做路由
 	mux_router.HandleFunc("/", NotFoundHandler)
-	mux_router.HandleFunc("/{key}", TestHandler) //测试路由变量
-	http.Handle("/", mux_router)                 //这一句别忘了 否则前面的mux_router是不作用的
+	mux_router.HandleFunc("/restful/onlineUsers", GetOnlineUsers).Methods("GET")         //得到在线用户的列表
+	mux_router.HandleFunc("/restful/onlineUsers/{id}", GetOnlineUserById).Methods("GET") //得到在线用户的列表
+	http.Handle("/", mux_router)                                                         //这一句别忘了 否则前面的mux_router是不作用的
 
 	//http.HandleFunc("/", NotFoundHandler) //当没有找到路径名字时，后面改为用mux库了
 	err1 := http.ListenAndServe(":80", nil)
