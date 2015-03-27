@@ -4,10 +4,25 @@
 package onlineUser
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux" //路由库
 	"net/http"
 )
+
+//================json=================
+
+type ColorGroup struct { //字段名要大写要不会给json解释到
+	ID     int
+	Name   string
+	Colors []string
+}
+
+var group *ColorGroup = &ColorGroup{
+	ID:     1,
+	Name:   "Reds",
+	Colors: []string{"Crimson", "Red", "Ruby", "Maroon"},
+}
 
 //================restful在线用户==========================
 //=========================================================
@@ -21,6 +36,10 @@ func GetOnlineUserById(w http.ResponseWriter, r *http.Request) {
 
 //rstful服务，得到所有在线用户
 func GetOnlineUsers(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "all")
-	fmt.Println("all")
+	b, err := json.Marshal(group)
+	if err != nil {
+		fmt.Println("error:", err)
+	}
+	fmt.Fprintf(w, string(b)) //必须要string
+	fmt.Println(string(b))
 }
