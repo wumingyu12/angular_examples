@@ -1,41 +1,43 @@
 var MyApp=angular.module('myapp', ['ngSanitize','ngResource']);//ngSanitize指令ng-blind-html,ngResource提供resetful服务
 //restful服务
 MyApp.factory('ReOnlineUsers',['$resource',function($resource){ 
-	return $resource('restful/onlineUsers/:userId',
-		{userId:1}
+	return $resource('/restful/onlineUsers/:userId',//相对地址的不加第一个/
+		{userId:"all"}//在query方法下也会请求restful/onlineUsers/all
 	);
 }]);
 //抽象restful作为更高级的服务在线用户的api
-MyApp.factory('onlineUsers',['$q','ReOnlineUsers',function($q,ReOnlineUsers){ 
-	return {
-        getById:function(id){
-            var defer = $q.defer();//一个异步处理
-            ReOnlineUsers.get({userId:id},function(data,headers){//成功返回，用到ReOnlineUsers,data为返回的json，headers为头
-                defer.resolve(data);
-            },function(data,headers){//失败返回
-                defer.reject(data);
-            });
-            return defer.promise//返回承诺
-        },
-        query:function(){
-            var defer = $q.defer();
-            ReOnlineUsers.query(function(data,headers){
-                defer.resolve(data);
-            },function(data,headers){
-                defer.reject(data);
-            });
-            return defer.promise
-        }
-    }
-}]);
+//MyApp.factory('onlineUsers',['$q','ReOnlineUsers',function($q,ReOnlineUsers){ 
+//	return {
+//        getById:function(id){
+//            var defer = $q.defer();//一个异步处理
+//            ReOnlineUsers.get({userId:id},function(data,headers){//成功返回，用到ReOnlineUsers,data为返回的json，headers为头
+//                defer.resolve(data);
+//            },function(data,headers){//失败返回
+//                defer.reject(data);
+//            });
+//            return defer.promise//返回承诺
+//        },
+//        query:function(){
+//            var defer = $q.defer();
+//            ReOnlineUsers.query(function(data,headers){
+//                defer.resolve(data);
+//            },function(data,headers){
+//                defer.reject(data);
+//            });
+//            return defer.promise
+//        }
+//    }
+//}]);
 //控制器
-MyApp.controller('testCtrl', function ($scope) {
-	$scope.test = "你是谁";
+MyApp.controller('testCtrl',['$scope','ReOnlineUsers',function ($scope,ReOnlineUsers) {
+	var userList=ReOnlineUsers.get({userId:"all"},function(userList){//成功时的回调函数,还可以跟一个失败时候的回调
+		console.log(userList);
+	});
 	$scope.show=function(){
-		$scope.test = "你是谁1";
-		console.log("ffffffff");
+		console.log("111")
+		console.log(userList.Name);
 	};
-});
+}]);
 //指令，当div改变时，滚动条到最底部,通过对指令赋值监测此值的变化
 MyApp.directive('scrollToBottom', function(){
     return {

@@ -74,7 +74,6 @@ func main() {
 
 	mux_router := mux.NewRouter() //用mux库做路由
 	mux_router.HandleFunc("/", NotFoundHandler)
-	mux_router.HandleFunc("/restful/onlineUsers", onlineUser.GetOnlineUsers).Methods("GET")         //得到在线用户的列表
 	mux_router.HandleFunc("/restful/onlineUsers/{id}", onlineUser.GetOnlineUserById).Methods("GET") //得到在线用户的列表
 	http.Handle("/", mux_router)                                                                    //这一句别忘了 否则前面的mux_router是不作用的
 

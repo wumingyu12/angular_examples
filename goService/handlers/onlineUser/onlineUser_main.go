@@ -31,15 +31,13 @@ func GetOnlineUserById(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r) //r为*http.Request
 	userId := vars["id"]
 	fmt.Println(userId)
-	fmt.Fprintf(w, userId) //向浏览器发送json或者字符串，这里是变量
-}
+	//fmt.Fprintf(w, userId) //向浏览器发送json或者字符串，这里是变量
 
-//rstful服务，得到所有在线用户
-func GetOnlineUsers(w http.ResponseWriter, r *http.Request) {
+	//json
 	b, err := json.Marshal(group)
 	if err != nil {
 		fmt.Println("error:", err)
 	}
-	fmt.Fprintf(w, string(b)) //必须要string
+	fmt.Fprintf(w, string(b)) //必须要string,确保没发送其他了否则解释不了为json在angular
 	fmt.Println(string(b))
 }
