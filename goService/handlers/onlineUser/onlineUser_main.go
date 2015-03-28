@@ -26,8 +26,9 @@ import (
 
 //一个聊天室结构体
 type ChatRoom struct {
-	IfOnline    int                 //是否是在线聊天室
-	OnlineUsers map[int]*OnlineUser //在线用户的map用OnlineUsers[1]指代
+	IfOnline int //是否是在线聊天室
+	//如果想json可以解释map就要用map[string]，不能用map[int]
+	OnlineUsers map[string]*OnlineUser //在线用户的map用OnlineUsers[1]指代
 }
 
 //在线用户的结构体
@@ -39,7 +40,7 @@ type OnlineUser struct {
 var chatRoom *ChatRoom = &ChatRoom{
 	//在线
 	IfOnline:    1,
-	OnlineUsers: make(map[int]*OnlineUser),
+	OnlineUsers: make(map[string]*OnlineUser),
 }
 
 //================restful在线用户==========================
@@ -55,8 +56,8 @@ func GetOnlineUserById(w http.ResponseWriter, r *http.Request) {
 		Name: "伍明",
 		Id:   2,
 	}
-	chatRoom.OnlineUsers[1] = user1
-	chatRoom.OnlineUsers[2] = user2
+	chatRoom.OnlineUsers["1"] = user1
+	chatRoom.OnlineUsers["2"] = user2
 
 	vars := mux.Vars(r) //r为*http.Request
 	userId := vars["id"]
@@ -64,7 +65,7 @@ func GetOnlineUserById(w http.ResponseWriter, r *http.Request) {
 	//fmt.Fprintf(w, userId) //向浏览器发送json或者字符串，这里是变量
 
 	//json
-	b, err := json.Marshal(chatRoom.OnlineUsers[1])
+	b, err := json.Marshal(chatRoom)
 	if err != nil {
 		fmt.Println("onlineUser_main.go 69行 error:", err)
 	}
