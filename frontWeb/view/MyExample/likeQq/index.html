@@ -18,10 +18,10 @@
 	<div class="container my-root-pan ">
 		<div class="row">
 			<!-- 好友列表 -->
-			<div class="col-md-3 col-sm-3">
-				<div class="my-left-pan well">
-					<div class="well animated infinite flash">
-						ffff
+			<div ng-controller="userListCtrl" class="col-md-3 col-sm-3">
+				<div  class="my-left-pan well">
+					<div ng-repeat="user in userList.OnlineUsers" class="well animated infinite flash">
+						{{user.Name}}
 					</div>
 				</div>
 			</div>
