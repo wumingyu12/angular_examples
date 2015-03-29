@@ -8,12 +8,23 @@ MyApp.factory('ReOnlineUsers',['$resource',function($resource){
 //控制器
 
 //左侧好友列表控制器
-MyApp.controller('userListCtrl',['$scope','ReOnlineUsers',function ($scope,ReOnlineUsers) {
+MyApp.controller('userListCtrl',[
+	'$scope',
+	'ReOnlineUsers',
+	'$timeout',//timeout实现长轮询
+	function ($scope,ReOnlineUsers,$timeout) {
 	//好友列表，get   /restful/onlineUsers/all
-	$scope.userList=ReOnlineUsers.get({userId:"all"},function(userList){//成功时的回调函数,还可以跟一个失败时候的回调
-		console.log("app.js 46行好友列表获取成功")
-		console.log(userList);
-	});
+	var longPoll = function() {
+        $timeout(function() {
+        	//定时执行的函数，为一个get json
+            $scope.userList=ReOnlineUsers.get({userId:"all"},function(userList){//成功时的回调函数,还可以跟一个失败时候的回调
+				console.log("app.js 46行好友列表获取成功")
+				console.log(userList);
+			});
+            longPoll();//最后记得回调
+        }, 1000);//1秒执行一次
+    }; 
+	longPoll();//记得一开始要启动定时
 }]);
 
 
