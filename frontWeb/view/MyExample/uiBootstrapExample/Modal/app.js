@@ -8,7 +8,9 @@ MyApp.controller('ModalDemoCtrl',[
 			var modalInstance = $modal.open({
       			templateUrl: 'myModalContent.html',
       			//controller: 'ModalInstanceCtrl',
-      			size: size
+      			size: size,
+      			backdrop:"static",//点击空白处不会退出modal
+      			keyboard :false //按键盘esc不会退出modal
     		});
     	} 
 	}
