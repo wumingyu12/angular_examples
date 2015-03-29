@@ -1,0 +1,155 @@
+<!doctype html>
+<html ng-app="myapp">
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="/frame/bootstrap/css/bootstrap.css">
+		<script src="/frame/angular_js/angular.js"></script>
+		<script src="/frame/ui-bootstrap/ui-bootstrap-tpls-0.12.1.js"></script>
+		<script src="app.js"></script>
+	</head>
+	<body>
+		<br>
+		<hr>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 ">
+					<!--官网示例代码开始-->		
+					<div ng-controller="ModalDemoCtrl">
+
+						<!-- 弹出的框内容开始  -->
+						<script type="text/ng-template" id="myModalContent.html">
+							//弹出的模态框内容
+							<h1>我是模态框 modal</h1>
+						</script>
+						<!-- 弹出的框内容结束  -->
+
+						<button class="btn btn-default" ng-click="open()">Open me!</button>
+    					<button class="btn btn-default" ng-click="open('lg')">大模态框</button>
+    					<button class="btn btn-default" ng-click="open('sm')">小模态框</button>
+					</div>
+					<!--官网示例代码结束-->		
+				</div>
+				<!--说明-->
+				<div class="col-md-6">
+					<h1>Modal 模态框</h1>
+					<p>
+						<code>$modal</code>
+						is a service to quickly create AngularJS-powered modal windows.
+							Creating custom modals is straightforward: create a partial view, its controller and reference them when using the service.
+					</p>
+
+					<p>
+						The
+						<code>$modal</code>
+						服务只有一种方法:
+						<code>open(options)</code>
+						可用的操作如下:
+					</p>
+
+					<ul>
+						<li>
+							<code>templateUrl</code>
+							-一个地址，或者像本例中的id
+						</li>
+						<li>
+							<code>template</code>
+							- 直接在本属性下写html
+							- inline template representing the modal's content
+						</li>
+						<li>
+							<code>scope</code>
+							- a scope instance to be used for the modal's content (actually the
+							<code>$modal</code>
+							service is going to create a child scope of a provided scope). Defaults to
+							<code>$rootScope</code>
+						</li>
+						<li>
+							<code>controller</code>
+							- 一个掌管模态框实例的控制器 - it can initialize scope used by modal. Accepts the "controller-as" syntax in the form 'SomeCtrl as myctrl'; 该控制器可以注入
+							<code>$modalInstance</code>就可以使用其dismiss与close方法
+						</li>
+						<li>
+							<code>controllerAs</code>
+							- an alternative to the controller-as syntax, matching the API of directive definitions. Requires the
+							<code>controller</code>
+							option to be provided as well
+						</li>
+						<li>
+							<code>resolve</code>
+							- members that will be resolved and passed to the controller as locals; it is equivalent of the
+							<code>resolve</code>
+							property for AngularJS routes
+						</li>
+						<li>
+							<code>backdrop</code>
+							- controls presence of a backdrop. Allowed values: true (default), false (no backdrop),
+							<code>'static'</code>
+							- backdrop is present but modal window is not closed when clicking outside of the modal window.
+						</li>
+						<li>
+							<code>keyboard</code>
+							- indicates whether the dialog should be closable by hitting the ESC key, defaults to true
+						</li>
+						<li>
+							<code>backdropClass</code>
+							- additional CSS class(es) to be added to a modal backdrop template
+						</li>
+						<li>
+							<code>windowClass</code>
+							- additional CSS class(es) to be added to a modal window template
+						</li>
+						<li>
+							<code>windowTemplateUrl</code>
+							- a path to a template overriding modal's window template
+						</li>
+						<li>
+							<code>size</code>
+							- 可以选择的模态框大小. 可以是下面的值:
+							<code>'sm'</code>
+							(小) or
+							<code>'lg'</code>
+							(大). 需要依赖 Bootstrap 3.1.0 或更高版本
+						</li>
+					</ul>
+
+					<p>
+						The
+						<code>open</code>
+						方法返回一个实例, 该实例具有以下方法:
+					</p>
+
+					<ul>
+						<li>
+							<code>close(result)</code>
+							- a method that can be used to close a modal, passing a result
+						</li>
+						<li>
+							<code>dismiss(reason)</code>
+							- a method that can be used to dismiss a modal, passing a reason
+						</li>
+						<li>
+							<code>result</code>
+							- 一个承诺 promise 当模态框是closed时为 resolved 当模态框是dismissed是为rejected ，任何承诺对象都有then方法，可以用其编写resolved室和rejected时的方法
+						</li>
+						<li>
+							<code>opened</code>
+							- a promise that is resolved when a modal gets opened after downloading content's template and resolving all variables
+						</li>
+					</ul>
+
+					<p>
+						In addition the scope associated with modal's content is augmented with 2 methods:
+					</p>
+
+					<ul>
+						<li><code>$close(result)</code></li>
+						<li><code>$dismiss(reason)</code></li>
+					</ul>
+					<p>Those methods make it easy to close a modal window without a need to create a dedicated controller.</p>
+				</div>
+			</div>
+		</div>
+		
+		
+	</body>
+</html>

@@ -37,6 +37,7 @@ type OnlineUser struct {
 	Id   int
 }
 
+//实例化一个聊天室
 var chatRoom *ChatRoom = &ChatRoom{
 	//在线
 	IfOnline:    1,
@@ -56,6 +57,7 @@ func GetOnlineUserById(w http.ResponseWriter, r *http.Request) {
 		Name: "伍明",
 		Id:   2,
 	}
+	//给聊天室添加成员
 	chatRoom.OnlineUsers["1"] = user1
 	chatRoom.OnlineUsers["2"] = user2
 
