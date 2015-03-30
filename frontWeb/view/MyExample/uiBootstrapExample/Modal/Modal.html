@@ -2,20 +2,20 @@
 <html ng-app="myapp">
 	<head>
 		<meta charset="utf-8">
-		<link rel="stylesheet" href="/frame/bootstrap/css/bootstrap.css">
+		<!-- y用这个版本的bootstrap可以消除bug，要不用uibootstrap的测试用版本3.1.1 -->
+		<link rel="stylesheet" href="/frame/bootstrap-3.3.4/css/bootstrap.css">
 		<script src="/frame/angular_js/angular.js"></script>
 		<script src="/frame/ui-bootstrap/ui-bootstrap-tpls-0.12.1.js"></script>
 		<script src="app.js"></script>
 		<style type="text/css">
-		.modal-backdrop {
-  			bottom:0;
-		}
+
 		</style>
 	</head>
 	<body>
 		<br>
 		<hr>
 		<div class="container">
+			<h3>该组件是基于bootstrap3.1.1的尽量用回这个版本,试验后发现3.3.4也可以没有bug，否则会导致一些bug如modal中的灰色背景不显示</h3>
 			<div class="row">
 				<div class="col-md-6 ">
 					<!--官网示例代码开始-->		
