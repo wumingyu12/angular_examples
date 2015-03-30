@@ -25,12 +25,26 @@
 						<script type="text/ng-template" id="myModalContent.html">
 
 							<h1>我是模态框 modal</h1>
+							        <div class="modal-header">
+					        <div >
+					            <ul>
+					                <li ng-repeat="item in items">
+					                    <a ng-click="selected.item = item">{{ item }}</a>
+					                </li>
+					            </ul>
+					            Selected: <b>{{ selected.item }}</b>
+					        </div>
+					        <div class="modal-footer">
+					            <button class="btn btn-primary" ng-click="ok()">OK</button>
+					            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+					        </div>
 						</script>
 						<!-- 弹出的框内容结束  -->
 
 						<button class="btn btn-default" ng-click="open()">Open me!</button>
     					<button class="btn btn-default" ng-click="open('lg')">大模态框</button>
     					<button class="btn btn-default" ng-click="open('sm')">小模态框</button>
+    					<div ng-show="selected">Selection from a modal: {{ selected }}</div>
 					</div>
 					<!--官网示例代码结束-->	
 
@@ -83,6 +97,7 @@
 						<li>
 							<code>resolve</code>
 							- members that will be resolved and passed to the controller as locals; it is equivalent of the
+							一个属性或对象可以在modal的控制器里面注入，并使用
 							<code>resolve</code>
 							property for AngularJS routes
 						</li>
