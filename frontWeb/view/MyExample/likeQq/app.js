@@ -1,11 +1,68 @@
-var MyApp=angular.module('myapp', ['ngSanitize','ngResource']);//ngSanitize指令ng-blind-html,ngResource提供resetful服务
+var MyApp=angular.module('myapp', ['ngSanitize','ngResource','ui.bootstrap']);//ngSanitize指令ng-blind-html,ngResource提供resetful服务
+
 //restful服务
 MyApp.factory('ReOnlineUsers',['$resource',function($resource){ 
 	return $resource('/restful/onlineUsers/:userId',//相对地址的不加第一个/
 		{userId:"all"}//在query方法下也会请求restful/onlineUsers/all
 	);
 }]);
-//控制器
+//主控制器，body控制器
+
+MyApp.controller('BodyCtrl',[
+	'$scope',
+	'$modal',//注入modal
+	'$log',
+	function ($scope,$modal,$log){
+		$scope.items = ['item1', 'item2', 'item3'];
+		$scope.open=function(size){
+			var modalInstance = $modal.open({
+      			templateUrl: 'myModalContent.html',
+      			controller: 'ModalInstanceCtrl',
+      			size: size,
+      			//backdrop:"static",//点击空白处不会退出modal
+      			//keyboard :false, //按键盘esc不会退出modal
+      			resolve: {//向模态框发送一些值，通过注入
+        			items: function () {//一个属性或对象可以在modal的控制器里面注入
+          				return $scope.items;
+        			}
+      			}
+    		});
+
+			//处理模态框返回的结果，selectedItem从modal中返回
+			//回调结束后，then，这里的回调就是出现的modal
+    		modalInstance.result.then(function (selectedItem) {
+      			$scope.selected = selectedItem;//如果返回成功
+    		}, function () {
+      			$log.info('Modal dismissed at: ' + new Date());
+    		});
+    	};
+    	$scope.open() ;//让控制器加载时就运行，首次打开页面时
+	}
+]);
+
+//登录模态框的控制器
+MyApp.controller('ModalInstanceCtrl',[
+	'$scope',
+	'$modalInstance',//父控制器的注入，可以提供close与dismiss方法
+	'items',//这个items是父控制器resolve返回并可以注入的
+	function ($scope, $modalInstance, items) {
+
+		$scope.items = items;
+		$scope.selected = {//会在前端的ngclick中改变
+			item: $scope.items[0]//会产生scope.selected.item的值，赋值默认为items[0]
+		};
+
+		$scope.login = function () {
+			//向调用modal的控制器返回一些东西
+			$modalInstance.close($scope.selected.item);
+		};
+
+  		$scope.cancel = function () {
+    		$modalInstance.dismiss('cancel');
+  		};
+	}
+]);
+
 
 //左侧好友列表控制器
 MyApp.controller('userListCtrl',[
@@ -54,7 +111,7 @@ MyApp.controller('ueCtrl', function ($scope) {
 	$scope.msgs='<p><span style="color: rgb(141, 179, 226);">方芳芳</span><br/></p>';
 	$scope.msgCount=0;//
 	$scope.setShow=function(){
-		ue.setShow();//引用了外部的全局变量
+		window.ue.setShow();//引用了外部的全局变量
 		console.log("显示编辑界面");
 	};
 
