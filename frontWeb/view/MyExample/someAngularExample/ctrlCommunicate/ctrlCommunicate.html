@@ -1,0 +1,57 @@
+<!doctype html>
+<html ng-app="myapp">
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="/frame/bootstrap-3.3.4/css/bootstrap.css">
+		<script src="/frame/angular_js/angular.js"></script>
+		<script src="app.js"></script>
+	</head>
+	<body>
+		<div ng-controller="fatherCtrl">
+			<h1>父控制器，先按父控制器的加一，子控制器的值会跟着变，但先按字控制器的加1父控制器就没变</h1>
+			<h3>测试值testValue：{{testValue}}</h3>
+			<button ng-click="add()">加一</button>
+			<div ng-controller="childrenCtrl">
+				<h3>测试值testValue：{{testValue}}</h3>
+				<button ng-click="add()">子加一</button>
+			</div>
+		</div>
+		<hr>
+		<hr>
+		<!-- 用对象的方式来实现两个控制器的变量统一 -->
+		<div ng-controller="fatherCtrlObj">
+			<h1>用obj变量的方式实现父子控制器的变量统一</h1>
+			<h3>测试值testValue：{{obj.testValue}}</h3>
+			<button ng-click="add()">加一</button>
+			<div ng-controller="childrenCtrlObj">
+				<h3>测试值testValue：{{obj.testValue}}</h3>
+				<button ng-click="add()">子加一</button>
+			</div>
+		</div>
+		<hr>
+		<hr>
+		<!-- 用服务的方式来通信 -->
+		<h1>用服务来让控制器之间通信</h1>
+		<div ng-controller="Ctrl1">
+			<h1>控制器1</h1>
+			<h3>测试值testValue：{{testValue}}</h3>
+			<h3>测试值testValue1：{{testValue1}}</h3>
+     		<button ng-click="add()">加一</button>
+		</div>
+		<div ng-controller="Ctrl2">
+			<h1>控制器2</h1>
+			<h3>测试值testValue：{{testValue}}</h3>
+			<h3>测试值testValue1：{{testValue1}}</h3>
+    		<button ng-click="add()">加一</button>
+		</div>
+
+		<!-- 用全局变量来进行通信 -->
+		<div data-ng-controller="CtrlGb">  
+    		<h3>ngvalue方法：{{test.test1}}</h3>  
+    		<h3>ngconstant方法：{{constanttest}}</h3>  
+    		<h3>js全局变量：{{test2}}</h3>  
+		</div> 
+		<!-- 还有一种以事件来通信的方式 -->
+		<h1>还有一种以事件来通信的方式</h1>
+	</body>
+</html>
