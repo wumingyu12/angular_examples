@@ -24,6 +24,20 @@
   			</div>
   			<div class="panel-body">
 		    	<form class="form-horizontal">
+		    		<!--头像图片轮播 -->
+		    		<div class="row">
+						<div class="col-sm-offset-2 col-sm-8">
+							<carousel interval="myInterval">
+								<slide ng-repeat="slide in slides" active="slide.active">
+									<img ng-src="{{slide.image}}" style="margin:auto;">				
+									<div >
+										<h4>&nbsp</h4>
+									</div>
+								</slide>
+							</carousel>
+						</div>
+					</div>
+					<br/>
 					<div class="form-group">
 						<label for="inputEmail3" class="col-sm-2 control-label">Email</label>
 						<div class="col-sm-9">
