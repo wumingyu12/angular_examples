@@ -1,0 +1,73 @@
+<!doctype html>
+<html ng-app="myapp">
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="/frame/bootstrap-3.3.4/css/bootstrap.css">
+		<script src="/frame/angular_js/angular.js"></script>
+		<script src="/frame/ui-bootstrap/ui-bootstrap-tpls-0.12.1.js"></script>
+		<script src="app.js"></script>
+	</head>
+	<body>
+		<br>
+		<hr>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 ">
+					<!--官网示例代码开始-->				
+
+					<div ng-controller="CarouselDemoCtrl">
+						<div style="height: 305px">
+							<carousel interval="myInterval">
+								<slide ng-repeat="slide in slides" active="slide.active">
+									<img ng-src="{{slide.image}}" style="margin:auto;">				
+									<div class="carousel-caption">
+										<h4>Slide {{$index}}</h4>
+										<p>{{slide.text}}</p>
+									</div>
+								</slide>
+							</carousel>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<button type="button" class="btn btn-info" ng-click="addSlide()">Add Slide</button>
+							</div>
+							<div class="col-md-6">
+								Interval, in milliseconds:
+								<input type="number" class="form-control" ng-model="myInterval">				
+								<br />				
+								Enter a negative number or 0 to stop the interval.
+							</div>
+						</div>
+					</div>
+
+					<!--官网示例代码结束-->				
+				</div>
+				<!--说明-->
+				<div class="col-md-6">
+					<h1>说明</h1>
+
+					<p>
+						Carousel creates a carousel similar to bootstrap's image carousel.
+					</p>
+
+					<p>
+						The carousel also offers support for touchscreen devices in the form of swiping(滑动). To enable swiping, load the
+						<code>ngTouch</code>
+						module as a dependency.
+					</p>
+
+					<p>
+						Use a
+						<code>carousel</code>
+						element with
+						<code>slide</code>
+						elements inside it.  It will automatically cycle through the slides at a given rate, and a current-index variable will be kept in sync with the currently visible slide.
+					</p>
+				</div>
+				</div>
+			</div>
+		</div>
+		
+		
+	</body>
+</html>
