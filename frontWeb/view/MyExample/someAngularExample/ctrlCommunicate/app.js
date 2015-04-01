@@ -62,3 +62,22 @@ MyApp.controller('CtrlGb', ['$scope','test','constanttest',
     $scope.constanttest = constanttest;   //方法3，赋值  
     $scope.test2 = test2;                 //方法1，赋值  
   }]);  
+
+//用rootscope方式来通信
+MyApp.controller('RootscopeCtrl1',['$scope','$rootScope',
+	function($scope,$rootScope) {
+		$rootScope.testValue = 1;
+		$scope.testValue=$rootScope.testValue;
+		$scope.add=function(){ 
+			$rootScope.testValue=$rootScope.testValue+1;
+		}
+	}
+]);
+MyApp.controller('RootscopeCtrl2',['$scope','$rootScope',
+	function($scope,$rootScope) {
+		$scope.testValue=$rootScope.testValue;
+		$scope.add=function(){ 
+			$rootScope.testValue=$rootScope.testValue+1;
+		}
+	}
+]);

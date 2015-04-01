@@ -1,5 +1,7 @@
 var MyApp=angular.module('myapp', ['ngSanitize','ngResource','ui.bootstrap']);//ngSanitize指令ng-blind-html,ngResource提供resetful服务
 
+//创建一个全局对象，用来放置用户的id，昵称，头像
+MyApp.value('gUser',{"id":0,"name":"","headImg":""});
 //restful服务
 MyApp.factory('ReOnlineUsers',['$resource',function($resource){ 
 	return $resource('/restful/onlineUsers/:userId',//相对地址的不加第一个/
