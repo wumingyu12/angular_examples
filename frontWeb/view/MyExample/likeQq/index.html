@@ -40,9 +40,10 @@
 					<br/>
 					<!--昵称文本框 -->
 					<div class="form-group">
-						<label for="inputUserName" class="col-sm-offset-1 col-sm-2 control-label">用户名：</label>
+						<label class="col-sm-offset-1 col-sm-2 control-label">用户名：{{cachUser.name}}</label>
 						<div class="col-sm-8">
-							<input type="email" class="form-control" id="inputUserName" placeholder="请输入你想要的昵称"></div>
+							<input ng-model="cachUser.name"  class="form-control"  placeholder="请输入你想要的昵称">
+						</div>
 					</div>
 					</br>
 					</br>

@@ -20,7 +20,6 @@ MyApp.controller('BodyCtrl',[
 		$rootScope.gUser={"id":0,"name":"","headImg":""};//创建一个全局对象，用来放置用户的id，昵称，头像
 
 		//处理打开模态框
-		$scope.items = ['item1', 'item2', 'item3'];
 		$scope.open=function(size){
 			var modalInstance = $modal.open({
       			templateUrl: 'myModalContent.html',
@@ -29,16 +28,17 @@ MyApp.controller('BodyCtrl',[
       			//backdrop:"static",//点击空白处不会退出modal
       			//keyboard :false, //按键盘esc不会退出modal
       			resolve: {//向模态框发送一些值，通过注入
-        			items: function () {//一个属性或对象可以在modal的控制器里面注入
-          				return $scope.items;
-        			}
+        			//items: function () {//一个属性或对象可以在modal的控制器里面注入
+          			//	return $scope.items;
+        			//}
       			}
     		});
 
 			//处理模态框返回的结果，selectedItem从modal中返回
 			//回调结束后，then，这里的回调就是出现的modal
-    		modalInstance.result.then(function (selectedItem) {
-      			$scope.selected = selectedItem;//如果返回成功
+    		modalInstance.result.then(function (cachUser) {//cachUser为回调参数
+      			$rootScope.gUser = cachUser;//如果返回成功
+      			//console.log($rootScope.gUser);
     		}, function () {
       			$log.info('Modal dismissed at: ' + new Date());
     		});
@@ -51,7 +51,7 @@ MyApp.controller('BodyCtrl',[
 MyApp.controller('ModalInstanceCtrl',[
 	'$scope',
 	'$modalInstance',//父控制器的注入，可以提供close与dismiss方法
-	'items',//这个items是父控制器resolve返回并可以注入的
+	//'items',//这个items是父控制器resolve返回并可以注入的
 	function ($scope, $modalInstance) {
 
 		//$scope.items = items;
@@ -61,14 +61,17 @@ MyApp.controller('ModalInstanceCtrl',[
 		$scope.cachUser={};//创建一个对象
 		$scope.cachUser.name="";//记录用户的昵称
 		$scope.cachUser.headImg="";//用户的头像
-		$scope.login = function () {
+		$scope.login = function () {//按下登录按钮
+			//得到当前的轮播对象的img地址
+			$scope.cachUser.headImg=slides.filter(function (s) { return s.active; })[0].image;
+			//console.log($scope.cachUser);
 			//向调用modal的控制器返回一些东西
-			$modalInstance.close($scope.selected.item);
+			$modalInstance.close($scope.cachUser);//BodyCtrl,回调用的参数
 		};
 
-  		$scope.cancel = function () {
-    		$modalInstance.dismiss('cancel');
-  		};
+  		//$scope.cancel = function () {
+    	//	$modalInstance.dismiss('cancel');
+  		//};
 
 
   		//图片轮播
@@ -103,7 +106,7 @@ MyApp.controller('userListCtrl',[
 				console.log(userList);
 			});
             longPoll();//最后记得回调
-        }, 1000);//1秒执行一次
+        }, 10000);//1秒执行一次
     }; 
 	longPoll();//记得一开始要启动定时
 }]);
