@@ -13,7 +13,16 @@ MyApp.controller('CarouselDemoCtrl', function ($scope) {
         ['Cats', 'Kittys', 'Felines', 'Cutes'][slides.length % 4]
     });
   };
+  //添加轮播
   for (var i=0; i<4; i++) {
     $scope.addSlide();
   };
+  //得到当前轮播图像
+  $scope.getActiveSlide = function () {
+    return slides.filter(function (s) { return s.active; })[0].text;
+  };
+  $scope.get=function(){ 
+  	alert($scope.getActiveSlide());
+  };
+
 });

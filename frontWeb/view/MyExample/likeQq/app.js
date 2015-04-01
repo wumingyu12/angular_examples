@@ -1,7 +1,7 @@
 var MyApp=angular.module('myapp', ['ngSanitize','ngResource','ui.bootstrap']);//ngSanitize指令ng-blind-html,ngResource提供resetful服务
 
-//创建一个全局对象，用来放置用户的id，昵称，头像
-MyApp.value('gUser',{"id":0,"name":"","headImg":""});
+
+
 //restful服务
 MyApp.factory('ReOnlineUsers',['$resource',function($resource){ 
 	return $resource('/restful/onlineUsers/:userId',//相对地址的不加第一个/
@@ -14,7 +14,12 @@ MyApp.controller('BodyCtrl',[
 	'$scope',
 	'$modal',//注入modal
 	'$log',
-	function ($scope,$modal,$log){
+	'$rootScope',
+	function ($scope,$modal,$log,$rootScope){
+		//在rootscope下建立一些全局对象
+		$rootScope.gUser={"id":0,"name":"","headImg":""};//创建一个全局对象，用来放置用户的id，昵称，头像
+
+		//处理打开模态框
 		$scope.items = ['item1', 'item2', 'item3'];
 		$scope.open=function(size){
 			var modalInstance = $modal.open({
@@ -47,13 +52,15 @@ MyApp.controller('ModalInstanceCtrl',[
 	'$scope',
 	'$modalInstance',//父控制器的注入，可以提供close与dismiss方法
 	'items',//这个items是父控制器resolve返回并可以注入的
-	function ($scope, $modalInstance, items) {
+	function ($scope, $modalInstance) {
 
-		$scope.items = items;
-		$scope.selected = {//会在前端的ngclick中改变
-			item: $scope.items[0]//会产生scope.selected.item的值，赋值默认为items[0]
-		};
-
+		//$scope.items = items;
+		//$scope.selected = {//会在前端的ngclick中改变
+			//item: $scope.items[0]//会产生scope.selected.item的值，赋值默认为items[0]
+		//};
+		$scope.cachUser={};//创建一个对象
+		$scope.cachUser.name="";//记录用户的昵称
+		$scope.cachUser.headImg="";//用户的头像
 		$scope.login = function () {
 			//向调用modal的控制器返回一些东西
 			$modalInstance.close($scope.selected.item);
@@ -62,20 +69,19 @@ MyApp.controller('ModalInstanceCtrl',[
   		$scope.cancel = function () {
     		$modalInstance.dismiss('cancel');
   		};
+
+
   		//图片轮播
-  		$scope.myInterval = 5000;
+  		//$scope.myInterval = 5000;
 		var slides = $scope.slides = [];
 		$scope.addSlide = function() {
 		    //var newWidth = 600 + slides.length + 1;
 		    var newWidth =slides.length + 1;
 		    slides.push({
-		      //image: 'http://placekitten.com/' + newWidth + '/300',
 		      image:'touxiang/cool-male-avatars-0'+newWidth+'.png',
-		      text: ['More','Extra','Lots of','Surplus'][slides.length % 4] + ' ' +
-		        ['Cats', 'Kittys', 'Felines', 'Cutes'][slides.length % 4]
 		    });
 		};
-		for (var i=0; i<4; i++) {
+		for (var i=0; i<5; i++) {
 		    $scope.addSlide();
 		};
 	}
