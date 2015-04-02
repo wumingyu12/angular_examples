@@ -10,13 +10,13 @@
 	<script src="/frame/ui-bootstrap/ui-bootstrap-tpls-0.12.1.js"></script>
 	<script src="/frame/angular_js/angular-sanitize.js"></script><!-- ng-blind-html -->
 	<script src="/frame/angular_js/angular-resource.js"></script><!-- restful编程 -->
-	<script src="/frame/angular_js/angular-animate.js"></script>
+	<script src="/frame/angular_js/angular-animate.js"></script><!-- 动画 -->
 	<script type="text/javascript" charset="utf-8" src="/frame/ueditor/ueditor.config.js"></script>
 	<script type="text/javascript" charset="utf-8" src="/frame/ueditor/ueditor.all.js"> </script>
 	<script src="app.js"></script>
 </head>
 <body ng-controller="BodyCtrl">
-	<!-- 弹出的框内容开始，登录模态框  -->
+	<!-- 弹出的框内容开始，登录模态框  'ModalInstanceCtrl-->
 	<script type="text/ng-template" id="myModalContent.html">
 		<div class="panel panel-success">
   			<div class="panel-heading text-center">
@@ -31,7 +31,7 @@
 								<slide ng-repeat="slide in slides" active="slide.active">
 									<img ng-src="{{slide.image}}" style="margin:auto;">				
 									<div >
-										<h4>&nbsp</h4>
+										<h4>&nbsp</h4><!--空格 -->
 									</div>
 								</slide>
 							</carousel>
@@ -39,13 +39,13 @@
 					</div>
 					<br/>
 					<!--昵称文本框 -->
-					<div class="form-group">
-						<label class="col-sm-offset-1 col-sm-2 control-label">用户名：{{cachUser.name}}</label>
+					<div class="form-group ">
+						<label class="col-sm-offset-1 col-sm-2 control-label">用户名:</label>
 						<div class="col-sm-8">
-							<div class="input-group">
+							<div  class="input-group" ng-class="{'has-error':isNameEmpt}">
 							<!--glyphicon 具有top：1 -->
-  								<span class="input-group-addon glyphicon glyphicon-user" style="top:0px"></span>
-  								<input style="vertical-align:middle;" ng-model="cachUser.name"  class="form-control" placeholder="请输入你想要的昵称">
+  								<span class="input-group-addon glyphicon glyphicon-user" style="top:0px" ></span>
+  								<input style="vertical-align:middle;" ng-model="cachUser.name"  class="form-control " placeholder="{{nametip}}">
 							</div>
 						</div>
 					</div>

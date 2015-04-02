@@ -58,14 +58,21 @@ MyApp.controller('ModalInstanceCtrl',[
 		//$scope.selected = {//会在前端的ngclick中改变
 			//item: $scope.items[0]//会产生scope.selected.item的值，赋值默认为items[0]
 		//};
+		$scope.nametip="请输入你想要的昵称";
+		$scope.isNameEmpt=false;//用户名是否为空
 		$scope.cachUser={};//创建一个对象
 		$scope.cachUser.name="";//记录用户的昵称
 		$scope.cachUser.headImg="";//用户的头像
 		$scope.login = function () {//按下登录按钮
+			//如果输入的昵称为空
+			if($scope.cachUser.name==""){
+				$scope.nametip="用户名不能为空";
+				$scope.isNameEmpt=true;//会让一个class显示出来
+				return; 
+			}
 			//得到当前的轮播对象的img地址
 			$scope.cachUser.headImg=slides.filter(function (s) { return s.active; })[0].image;
-			alert(this.caller);
-			//console.log($scope.cachUser);
+			console.log($scope.cachUser);
 			//向调用modal的控制器返回一些东西
 			$modalInstance.close($scope.cachUser);//BodyCtrl,回调用的参数
 		};
