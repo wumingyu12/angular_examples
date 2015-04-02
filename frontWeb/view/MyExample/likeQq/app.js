@@ -64,6 +64,7 @@ MyApp.controller('ModalInstanceCtrl',[
 		$scope.login = function () {//按下登录按钮
 			//得到当前的轮播对象的img地址
 			$scope.cachUser.headImg=slides.filter(function (s) { return s.active; })[0].image;
+			alert(this.caller);
 			//console.log($scope.cachUser);
 			//向调用modal的控制器返回一些东西
 			$modalInstance.close($scope.cachUser);//BodyCtrl,回调用的参数

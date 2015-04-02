@@ -42,7 +42,11 @@
 					<div class="form-group">
 						<label class="col-sm-offset-1 col-sm-2 control-label">用户名：{{cachUser.name}}</label>
 						<div class="col-sm-8">
-							<input ng-model="cachUser.name"  class="form-control"  placeholder="请输入你想要的昵称">
+							<div class="input-group">
+							<!--glyphicon 具有top：1 -->
+  								<span class="input-group-addon glyphicon glyphicon-user" style="top:0px"></span>
+  								<input style="vertical-align:middle;" ng-model="cachUser.name"  class="form-control" placeholder="请输入你想要的昵称">
+							</div>
 						</div>
 					</div>
 					</br>
@@ -58,7 +62,6 @@
 				</form>
   			</div>
 		</div>
-
 	</script>
 	<!-- 弹出的框内容结束  -->
 
