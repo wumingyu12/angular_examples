@@ -8,6 +8,18 @@ MyApp.factory('ReOnlineUsers',['$resource',function($resource){
 		{userId:"all"}//在query方法下也会请求restful/onlineUsers/all
 	);
 }]);
+
+//restful服务,http的restful服务
+MyApp.factory('httpOnlineUsers',['$http',function($http){ 
+	var baseurl='/restful/onlineUsers/';
+	return { 
+		save:function(user){
+			return $http.post(baseurl,user);
+		}
+	};
+}]);
+
+
 //主控制器，body控制器
 
 MyApp.controller('BodyCtrl',[
@@ -15,7 +27,8 @@ MyApp.controller('BodyCtrl',[
 	'$modal',//注入modal
 	'$log',
 	'$rootScope',
-	function ($scope,$modal,$log,$rootScope){
+	'httpOnlineUsers',
+	function ($scope,$modal,$log,$rootScope,httpOnlineUsers){
 		//在rootscope下建立一些全局对象
 		$rootScope.gUser={"id":0,"name":"","headImg":""};//创建一个全局对象，用来放置用户的id，昵称，头像
 
@@ -38,6 +51,7 @@ MyApp.controller('BodyCtrl',[
 			//回调结束后，then，这里的回调就是出现的modal
     		modalInstance.result.then(function (cachUser) {//cachUser为回调参数
       			$rootScope.gUser = cachUser;//如果返回成功
+      			httpOnlineUsers.save(cachUser);
       			//console.log($rootScope.gUser);
     		}, function () {
       			$log.info('Modal dismissed at: ' + new Date());
@@ -47,7 +61,8 @@ MyApp.controller('BodyCtrl',[
 	}
 ]);
 
-//登录模态框的控制器
+//登录模态框的控制器,这里要注意，这个模态控制器事实上上面的bodyctrl调用的，所以他的
+//作用域事实上是bodyctrl，所以一些注入好像$http 等都是不会注入成功的
 MyApp.controller('ModalInstanceCtrl',[
 	'$scope',
 	'$modalInstance',//父控制器的注入，可以提供close与dismiss方法
@@ -72,7 +87,9 @@ MyApp.controller('ModalInstanceCtrl',[
 			}
 			//得到当前的轮播对象的img地址
 			$scope.cachUser.headImg=slides.filter(function (s) { return s.active; })[0].image;
-			console.log($scope.cachUser);
+			//console.log($scope.cachUser);
+			//用restful向后台发送post请求更新后台用户
+			//httpOnlineUsers.save($scope.cachUser);
 			//向调用modal的控制器返回一些东西
 			$modalInstance.close($scope.cachUser);//BodyCtrl,回调用的参数
 		};

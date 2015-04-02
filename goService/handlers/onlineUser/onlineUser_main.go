@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux" //路由库
+	"io/ioutil"              //用来读取post中的body
 	"net/http"
 )
 
@@ -73,4 +74,12 @@ func GetOnlineUserById(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Fprintf(w, string(b)) //必须要string,确保没发送其他了否则解释不了为json在angular
 	fmt.Println(string(b))
+}
+
+//添加用户
+func AddOnlineUser(w http.ResponseWriter, r *http.Request) {
+	result, _ := ioutil.ReadAll(r.Body)
+	r.Body.Close()
+	fmt.Printf("%s\n", result)
+
 }
