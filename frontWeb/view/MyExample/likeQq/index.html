@@ -45,7 +45,7 @@
 							<div  class="input-group" ng-class="{'has-error':isNameEmpt}">
 							<!--glyphicon 具有top：1 -->
   								<span class="input-group-addon glyphicon glyphicon-user" style="top:0px" ></span>
-  								<input style="vertical-align:middle;" ng-model="cachUser.name"  class="form-control " placeholder="{{nametip}}">
+  								<input style="vertical-align:middle;" ng-model="cachUser.Name"  class="form-control " placeholder="{{nametip}}">
 							</div>
 						</div>
 					</div>
@@ -70,7 +70,7 @@
 			<!-- 好友列表 -->
 			<div ng-controller="userListCtrl" class="col-md-3 col-sm-3">
 				<div  class="my-left-pan well">
-					<div ng-repeat="user in userList.OnlineUsers" class="well animated infinite flash">
+					<div ng-repeat="user in userList.OnlineUsers" class="well "><!-- 动画类animated infinite flash -->
 						{{user.Name}}
 					</div>
 				</div>

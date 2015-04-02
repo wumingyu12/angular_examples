@@ -34,8 +34,9 @@ type ChatRoom struct {
 
 //在线用户的结构体
 type OnlineUser struct {
-	Name string
-	Id   int
+	Name    string
+	Id      int
+	HeadImg string //头像图标的地址
 }
 
 //实例化一个聊天室
@@ -68,7 +69,7 @@ func GetOnlineUserById(w http.ResponseWriter, r *http.Request) {
 	//fmt.Fprintf(w, userId) //向浏览器发送json或者字符串，这里是变量
 
 	//json
-	b, err := json.Marshal(chatRoom)
+	b, err := json.Marshal(chatRoom) //用这个函数时一定要确保字段名首位大写
 	if err != nil {
 		fmt.Println("onlineUser_main.go 69行 error:", err)
 	}
@@ -76,10 +77,15 @@ func GetOnlineUserById(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(string(b))
 }
 
-//添加用户
+//添加用户，解释发回的用户json
 func AddOnlineUser(w http.ResponseWriter, r *http.Request) {
-	result, _ := ioutil.ReadAll(r.Body)
+	//解释json为结构体
+	jsonResult, _ := ioutil.ReadAll(r.Body)
 	r.Body.Close()
-	fmt.Printf("%s\n", result)
-
+	//fmt.Printf("%s\n", jsonResult)
+	newUser := &OnlineUser{}
+	json.Unmarshal([]byte(jsonResult), newUser) //注意json字段要大写
+	//fmt.Printf(user.HeadImg)
+	//在聊天室里面添加新成员
+	chatRoom.OnlineUsers[newUser.Name] = newUser
 }

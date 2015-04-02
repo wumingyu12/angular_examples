@@ -29,8 +29,9 @@ MyApp.controller('BodyCtrl',[
 	'$rootScope',
 	'httpOnlineUsers',
 	function ($scope,$modal,$log,$rootScope,httpOnlineUsers){
-		//在rootscope下建立一些全局对象
-		$rootScope.gUser={"id":0,"name":"","headImg":""};//创建一个全局对象，用来放置用户的id，昵称，头像
+		//在rootscope下建立一些全局对象,字段用大小要不go的json库解释不了
+		$rootScope.gUser={
+		};//创建一个全局对象，用来放置用户的id，昵称，头像
 
 		//处理打开模态框
 		$scope.open=function(size){
@@ -51,7 +52,7 @@ MyApp.controller('BodyCtrl',[
 			//回调结束后，then，这里的回调就是出现的modal
     		modalInstance.result.then(function (cachUser) {//cachUser为回调参数
       			$rootScope.gUser = cachUser;//如果返回成功
-      			httpOnlineUsers.save(cachUser);
+      			httpOnlineUsers.save($rootScope.gUser);
       			//console.log($rootScope.gUser);
     		}, function () {
       			$log.info('Modal dismissed at: ' + new Date());
@@ -76,17 +77,17 @@ MyApp.controller('ModalInstanceCtrl',[
 		$scope.nametip="请输入你想要的昵称";
 		$scope.isNameEmpt=false;//用户名是否为空
 		$scope.cachUser={};//创建一个对象
-		$scope.cachUser.name="";//记录用户的昵称
-		$scope.cachUser.headImg="";//用户的头像
+		$scope.cachUser.Name="";//记录用户的昵称
+		$scope.cachUser.HeadImg="";//用户的头像
 		$scope.login = function () {//按下登录按钮
 			//如果输入的昵称为空
-			if($scope.cachUser.name==""){
+			if($scope.cachUser.Name==""){
 				$scope.nametip="用户名不能为空";
 				$scope.isNameEmpt=true;//会让一个class显示出来
 				return; 
 			}
 			//得到当前的轮播对象的img地址
-			$scope.cachUser.headImg=slides.filter(function (s) { return s.active; })[0].image;
+			$scope.cachUser.HeadImg=slides.filter(function (s) { return s.active; })[0].image;
 			//console.log($scope.cachUser);
 			//用restful向后台发送post请求更新后台用户
 			//httpOnlineUsers.save($scope.cachUser);
