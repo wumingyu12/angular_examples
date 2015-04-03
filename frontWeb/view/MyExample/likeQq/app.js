@@ -38,6 +38,8 @@ MyApp.controller('BodyCtrl',[
 		//浏览器退出前，区别于onunload
 		window.onbeforeunload = function (event){ 
 			httpOnlineUsers.userDelete($rootScope.gUser.Name);
+			return '你的文章尚未保存';//会弹出一个对话框
+			//return;
 		};
 		//处理打开模态框
 		$scope.open=function(size){

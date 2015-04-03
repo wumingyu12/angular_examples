@@ -63,9 +63,10 @@ func GetOnlineUserById(w http.ResponseWriter, r *http.Request) {
 	chatRoom.OnlineUsers["1"] = user1
 	chatRoom.OnlineUsers["2"] = user2
 
-	vars := mux.Vars(r) //r为*http.Request
-	userId := vars["id"]
-	fmt.Println(userId)
+	//vars := mux.Vars(r) //r为*http.Request
+	//userId := vars["id"]
+	//fmt.Println(userId)
+	fmt.Println(r.Host + r.RequestURI + "请求GetOnlineUserById")
 	//fmt.Fprintf(w, userId) //向浏览器发送json或者字符串，这里是变量
 
 	//json
@@ -73,8 +74,9 @@ func GetOnlineUserById(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println("onlineUser_main.go 69行 error:", err)
 	}
+	//给浏览器发送json
 	fmt.Fprintf(w, string(b)) //必须要string,确保没发送其他了否则解释不了为json在angular
-	fmt.Println(string(b))
+	//fmt.Println(string(b))
 }
 
 //添加用户，解释发回的用户json
@@ -94,5 +96,6 @@ func AddOnlineUser(w http.ResponseWriter, r *http.Request) {
 func DeleteOnlineUser(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)  //r为*http.Request
 	name := vars["name"] //从url获取要删除的name
+	fmt.Println(r.Host + r.RequestURI + "请求DeleteOnlineUser删除用户")
 	delete(chatRoom.OnlineUsers, name)
 }
