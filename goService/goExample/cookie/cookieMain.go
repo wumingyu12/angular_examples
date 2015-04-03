@@ -43,7 +43,8 @@ func ReadCookieServer(w http.ResponseWriter, req *http.Request) {
 func WriteCookieServer(w http.ResponseWriter, req *http.Request) {
 	// set cookies.
 	expire := time.Now().AddDate(0, 0, 1)
-	cookie := http.Cookie{Name: "testcookiename", Value: "testcookievalue", Path: "/", Expires: expire, MaxAge: 86400}
+	cookie := http.Cookie{Name: "testcookiename", Value: "testcookievalue", Path: "/", Expires: expire, MaxAge: 0}
+	cookie1 := http.Cookie{Name: "testcookiename1", Value: "testcookievalue1", Path: "/", Expires: expire, MaxAge: 0}
 	//expires= Wednesday, 19-OCT-05 23:12:40 GMT 指定cookie 失效的时间。
 	//如果没有指定失效时间，这个cookie 就不会被写入计算机的硬盘上，并且只持续到这次会话结束。
 
@@ -54,6 +55,7 @@ func WriteCookieServer(w http.ResponseWriter, req *http.Request) {
 	//但是path与当前访问的url不符，则此cookie将被忽略。
 
 	http.SetCookie(w, &cookie)
+	http.SetCookie(w, &cookie1) //如何设置2个cookie
 
 	//
 	// we can not set cookie after writing something to ResponseWriter
@@ -71,7 +73,7 @@ func DeleteCookieServer(w http.ResponseWriter, req *http.Request) {
 	http.SetCookie(w, &cookie)
 
 	// ABOUT MaxAge
-	// MaxAge=0 means no 'Max-Age' attribute specified.
+	// MaxAge=0 means no 'Max-Age' attribute specified.表示页面存在期内有效
 	// MaxAge<0 means delete cookie now, equivalently 'Max-Age: 0'
 	// MaxAge>0 means Max-Age attribute present and given in seconds
 
