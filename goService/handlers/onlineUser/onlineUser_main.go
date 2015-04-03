@@ -86,6 +86,13 @@ func AddOnlineUser(w http.ResponseWriter, r *http.Request) {
 	newUser := &OnlineUser{}
 	json.Unmarshal([]byte(jsonResult), newUser) //注意json字段要大写
 	//fmt.Printf(user.HeadImg)
-	//在聊天室里面添加新成员
+	//在聊天室里面添加新成员，以用户输入的name为key
 	chatRoom.OnlineUsers[newUser.Name] = newUser
+}
+
+//页面退出或刷新时的函数，在聊天室中删除对应name的用户
+func DeleteOnlineUser(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)  //r为*http.Request
+	name := vars["name"] //从url获取要删除的name
+	delete(chatRoom.OnlineUsers, name)
 }

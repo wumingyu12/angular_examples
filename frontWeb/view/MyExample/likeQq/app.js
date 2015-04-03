@@ -15,6 +15,9 @@ MyApp.factory('httpOnlineUsers',['$http',function($http){
 	return { 
 		save:function(user){
 			return $http.post(baseurl,user);
+		},
+		userDelete:function(userName){ //删除资源，退出或刷新时调用
+			return $http.delete(baseurl+'/'+userName);
 		}
 	};
 }]);
@@ -30,9 +33,12 @@ MyApp.controller('BodyCtrl',[
 	'httpOnlineUsers',
 	function ($scope,$modal,$log,$rootScope,httpOnlineUsers){
 		//在rootscope下建立一些全局对象,字段用大小要不go的json库解释不了
-		$rootScope.gUser={
-		};//创建一个全局对象，用来放置用户的id，昵称，头像
-
+		$rootScope.gUser={};//创建一个全局对象，用来放置用户的id，昵称，头像
+		
+		//浏览器退出前，区别于onunload
+		window.onbeforeunload = function (event){ 
+			httpOnlineUsers.userDelete($rootScope.gUser.Name);
+		};
 		//处理打开模态框
 		$scope.open=function(size){
 			var modalInstance = $modal.open({
