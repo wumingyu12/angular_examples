@@ -1,0 +1,63 @@
+<html>
+<script language=javascript>
+//一个长轮询等待数据
+function longpoll(url, callback) {//这里的callback就是recv函数
+
+    var req = new XMLHttpRequest (); //ajax对象
+    req.open ('GET', url, true); 
+
+    req.onreadystatechange = function (aEvt) {
+        if (req.readyState == 4) { 
+            if (req.status == 200) {
+                callback(req.responseText);
+                longpoll(url, callback);//成功后继续回调
+            } else {
+                alert ("long-poll connection lost");
+            }
+        }
+    };
+
+    req.send(null);
+    //angular可以这样实现
+   // $http({method: 'GET', url: '/someUrl'}).
+    //success(function(data, status, headers, config) {
+      // this callback will be called asynchronously
+      // when the response is available
+    //}).
+    //error(function(data, status, headers, config) {
+      // called asynchronously if an error occurs
+      // or server returns response with an error status.
+    //});
+}
+
+function recv(msg) {
+
+    var box = document.getElementById("counter");
+
+    box.innerHTML += msg + "\n";
+}
+//给服务器发送信号，让长轮询返回数据
+function send() {
+	var box = document.getElementById("counter");
+	var req = new XMLHttpRequest (); 
+    req.open ('POST', "/push?rcpt=", true); //发送一个push请求
+    req.onreadystatechange = function (aEvt) {
+        if (req.readyState == 4) { //readyState有五种可取值0：尚未初始化，1：正在加载，2：加载完毕，3：正在处理；4：处理完毕
+            if (req.status == 200) {//status	200: "OK" 404: 未找到页面
+            } else {
+                alert ("failed to send!");
+            }
+        }
+    };
+    req.send("hi")//body 里面加hi
+  //box.innerHTML += "test" ;  
+}
+</script>
+<body onload="longpoll('/poll', recv);"><!-- recv就是回调函数 -->
+
+<h1>长轮询例子，push和poll </h1>
+
+<p id="counter"></p>
+<button onclick="send()" id="test">Test Button</button>
+</body>
+</html>
