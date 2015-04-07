@@ -38,8 +38,9 @@ MyApp.controller('BodyCtrl',[
 		//浏览器退出前，区别于onunload
 		window.onbeforeunload = function (event){ 
 			//刷新不会导致这个事件
+			//删除用户名，必须有return要不这个函数执行不完整
 			httpOnlineUsers.userDelete($rootScope.gUser.Name);//会出现一种情况这条语句没运行完就退出了
-			//return '你的文章尚未保存';//会弹出一个对话框，
+			return '你是否要退出';//会弹出一个对话框，
 			//return;
 		};
 		//处理打开模态框
