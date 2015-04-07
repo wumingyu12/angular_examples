@@ -4,11 +4,14 @@
 package onlineUser
 
 import (
+	"./session"
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux" //路由库
 	"io/ioutil"              //用来读取post中的body
+	"log"
 	"net/http"
+	"os"
 )
 
 //================json=================
@@ -46,9 +49,20 @@ var chatRoom *ChatRoom = &ChatRoom{
 	OnlineUsers: make(map[string]*OnlineUser),
 }
 
+var logger = log.New(os.Stdout, "", log.Ldate|log.Ltime)
+
+//实例化一个session管理器
+var mySessionManager *session.SessionManager
+
+//session 管理器的初始化,方法要大写
+func SessionManagerInit() {
+	mySessionManager = session.NewSessionManager(logger)
+	logger.Println("session管理器创建成功，onlineUser_main.go")
+}
+
 //================restful在线用户==========================
 //=========================================================
-//restful服务，在线用户列表,通过id
+//restful服务，在线用户列表,通过id,心跳包，用心跳包监测在线用户
 func GetOnlineUserById(w http.ResponseWriter, r *http.Request) {
 	//虚拟的用户
 	user1 := &OnlineUser{

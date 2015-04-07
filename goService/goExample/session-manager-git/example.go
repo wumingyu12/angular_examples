@@ -1,7 +1,7 @@
 package main
 
 import (
-	"./seesion"
+	"./session"
 	"html/template"
 	"log"
 	"net/http"

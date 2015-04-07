@@ -75,17 +75,16 @@ func main() {
 	mux_router := mux.NewRouter() //用mux库做路由
 	mux_router.HandleFunc("/", NotFoundHandler)
 	//仿qq聊天的restful
+	onlineUser.SessionManagerInit()                                                                 //初始化Session管理器
 	mux_router.HandleFunc("/restful/onlineUsers/{id}", onlineUser.GetOnlineUserById).Methods("GET") //得到在线用户的列表
 	mux_router.HandleFunc("/restful/onlineUsers/", onlineUser.AddOnlineUser).Methods("POST")
 	//页面退出时的发送的restful
 	mux_router.HandleFunc("/restful/onlineUsers/{name}", onlineUser.DeleteOnlineUser).Methods("DELETE")
 	http.Handle("/", mux_router) //这一句别忘了 否则前面的mux_router是不作用的
-
+	fmt.Println("正在监听80端口,main.go")
 	//http.HandleFunc("/", NotFoundHandler) //当没有找到路径名字时，后面改为用mux库了
 	err1 := http.ListenAndServe(":80", nil)
 	if err1 != nil {
 		log.Fatal("ListenAndServe:", err1)
-	} else {
-		fmt.Println("正在监听80端口")
 	}
 }
