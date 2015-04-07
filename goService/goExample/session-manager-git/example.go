@@ -58,6 +58,7 @@ func main() {
 			logger.Printf("User \"%s\" login", name)
 
 			// XXX: set user own object.
+			//这里得到的session和上面的session是一样的因为本质上是同一域名下的同一cookie
 			manager.GetSession(w, req).Value = name //value 为interface可以放置任意变量
 		}
 		http.Redirect(w, req, "/", http.StatusFound) //页面跳转

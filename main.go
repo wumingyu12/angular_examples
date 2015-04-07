@@ -74,6 +74,7 @@ func main() {
 
 	mux_router := mux.NewRouter() //用mux库做路由
 	mux_router.HandleFunc("/", NotFoundHandler)
+	//仿qq聊天的restful
 	mux_router.HandleFunc("/restful/onlineUsers/{id}", onlineUser.GetOnlineUserById).Methods("GET") //得到在线用户的列表
 	mux_router.HandleFunc("/restful/onlineUsers/", onlineUser.AddOnlineUser).Methods("POST")
 	//页面退出时的发送的restful

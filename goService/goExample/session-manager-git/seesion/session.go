@@ -94,7 +94,7 @@ func (manager *SessionManager) GetTimeout() uint {
 	return manager.timeout
 }
 
-func (manager *SessionManager) SetPath(t string) {
+func (manager *SessionManager) SetPath(t string) { //可以设置Path，就是cookie的作用域
 	manager.path = t
 }
 
