@@ -72,7 +72,7 @@
 			<!-- 好友列表 -->
 			<div ng-controller="userListCtrl" class="col-md-3 col-sm-3">
 				<div  class="my-left-pan well">
-					<div ng-repeat="user in userList.OnlineUsers" class="well" style="padding:2px;"><!-- 动画类animated infinite flash -->
+					<div ng-repeat="user in $root.gUserList.OnlineUsers" class="well" style="padding:2px;"><!-- 动画类animated infinite flash -->
 						<img src="{{user.HeadImg}}" alt=""  width="50px" >
 						{{user.Name}}
 					</div>

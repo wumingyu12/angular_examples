@@ -3,11 +3,11 @@ var MyApp=angular.module('myapp', ['ngSanitize','ngResource','ui.bootstrap','ngC
 
 
 //restful服务
-MyApp.factory('ReOnlineUsers',['$resource',function($resource){ 
-	return $resource('/restful/onlineUsers/:userId',//相对地址的不加第一个/
-		{userId:"all"}//在query方法下也会请求restful/onlineUsers/all
-	);
-}]);
+//MyApp.factory('ReOnlineUsers',['$resource',function($resource){ 
+//	return $resource('/restful/onlineUsers/:userId',//相对地址的不加第一个/
+//		{userId:"all"}//在query方法下也会请求restful/onlineUsers/all
+//	);
+//}]);
 
 //restful服务,http的restful服务
 MyApp.factory('httpOnlineUsers',['$http',function($http){ 
@@ -15,10 +15,13 @@ MyApp.factory('httpOnlineUsers',['$http',function($http){
 	return { 
 		save:function(user){
 			return $http.post(baseurl,user);
-		}//,
+		},
 		//userDelete:function(userName){ //删除资源，退出或刷新时调用
 		//	return $http.delete(baseurl+'/'+userName);
 		//}
+		poll:function(id){ 
+			return $http.get(baseurl+'/'+id);
+		}
 	};
 }]);
 
@@ -32,10 +35,31 @@ MyApp.controller('BodyCtrl',[
 	'$rootScope',
 	'httpOnlineUsers',
 	'$cookies',
-	function ($scope,$modal,$log,$rootScope,httpOnlineUsers,$cookies){
+	//'ReOnlineUsers',
+	'$timeout',
+	function ($scope,$modal,$log,$rootScope,httpOnlineUsers,$cookies,$timeout){
 		//在rootscope下建立一些全局对象,字段用大小要不go的json库解释不了
-		$rootScope.gUser={};//创建一个全局对象，用来放置用户的id，昵称，头像
+		$rootScope.gUser={};//创建一个全局对象，用来放置用户登录时的id，昵称，头像
+		$rootScope.gUserList={};//心跳包
 		
+		var longPoll = function() {
+			console.log("心跳");
+
+			//console.log($scope.userList);
+			$timeout(function() {
+	        	//定时执行的函数，为一个get json
+	        	httpOnlineUsers.poll("all").success(function(data) {
+				//console.log(data);
+					$rootScope.gUserList=data;
+					console.log($rootScope.gUserList);
+				});
+	            longPoll();//最后记得回调
+	        }, 5000);//10秒执行一次
+
+	    }; 
+		//longPoll();//记得一开始要启动定时
+			//好友列表，get   /restful/onlineUsers/all
+
 		//浏览器退出前，区别于onunload
 		//window.onbeforeunload = function (event){ 
 			//刷新不会导致这个事件
@@ -44,6 +68,7 @@ MyApp.controller('BodyCtrl',[
 			//return '你是否要退出';//会弹出一个对话框，
 			//return;
 		//};
+
 		//处理打开模态框
 		$scope.open=function(size){
 			var modalInstance = $modal.open({
@@ -64,17 +89,26 @@ MyApp.controller('BodyCtrl',[
     		modalInstance.result.then(function (cachUser) {//cachUser为回调参数
       			$rootScope.gUser = cachUser;//如果返回成功
       			httpOnlineUsers.save($rootScope.gUser);
+      			console.log("关闭模态框成功");
+      			longPoll();//开启心跳函数
       			//console.log($rootScope.gUser);
     		}, function () {
       			$log.info('Modal dismissed at: ' + new Date());
     		});
     	};
-    	$scope.open() ;//让控制器加载时就运行，首次打开页面时
+    	
+    	//初始化
     	$scope.myInit=function(){
     		//打印出sessionid
-    		console.log($cookies);
+    		if($cookies.SessionId){//如果存在sessionId
+    			console.log($cookies);
+    			longPoll();//开启心跳函数
+    		}else{//如果不存在sessionId，说明是第一次登录要打开登录界面
+    			$scope.open() ;//让控制器加载时就运行，首次打开页面时
+    		}	
     	}
     	$scope.myInit();
+    	
 	}
 ]);
 
@@ -136,21 +170,10 @@ MyApp.controller('ModalInstanceCtrl',[
 //左侧好友列表控制器
 MyApp.controller('userListCtrl',[
 	'$scope',
-	'ReOnlineUsers',
-	'$timeout',//timeout实现长轮询
-	function ($scope,ReOnlineUsers,$timeout) {
-	//好友列表，get   /restful/onlineUsers/all
-	var longPoll = function() {
-        $timeout(function() {
-        	//定时执行的函数，为一个get json
-            $scope.userList=ReOnlineUsers.get({userId:"all"},function(userList){//成功时的回调函数,还可以跟一个失败时候的回调
-				console.log("app.js 46行好友列表获取成功")
-				console.log(userList);
-			});
-            longPoll();//最后记得回调
-        }, 10000);//1秒执行一次
-    }; 
-	longPoll();//记得一开始要启动定时
+	//'ReOnlineUsers',
+	//'$timeout',//timeout实现长轮询
+	function ($scope) {
+
 }]);
 
 
