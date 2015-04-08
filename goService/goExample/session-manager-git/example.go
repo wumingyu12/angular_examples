@@ -37,7 +37,7 @@ func main() {
 	manager := session.NewSessionManager(logger)
 	//定义新建session时的行为
 	manager.OnStart(func(session *session.Session) {
-		println("started new session")
+		println("started new session--ID:" + string(session.Id))
 	})
 	//定义超时或者关闭时的行为
 	manager.OnEnd(func(session *session.Session) {

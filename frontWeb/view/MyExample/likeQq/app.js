@@ -1,4 +1,4 @@
-var MyApp=angular.module('myapp', ['ngSanitize','ngResource','ui.bootstrap']);//ngSanitize指令ng-blind-html,ngResource提供resetful服务
+var MyApp=angular.module('myapp', ['ngSanitize','ngResource','ui.bootstrap','ngCookies']);//ngSanitize指令ng-blind-html,ngResource提供resetful服务
 
 
 
@@ -15,10 +15,10 @@ MyApp.factory('httpOnlineUsers',['$http',function($http){
 	return { 
 		save:function(user){
 			return $http.post(baseurl,user);
-		},
-		userDelete:function(userName){ //删除资源，退出或刷新时调用
-			return $http.delete(baseurl+'/'+userName);
-		}
+		}//,
+		//userDelete:function(userName){ //删除资源，退出或刷新时调用
+		//	return $http.delete(baseurl+'/'+userName);
+		//}
 	};
 }]);
 
@@ -31,18 +31,19 @@ MyApp.controller('BodyCtrl',[
 	'$log',
 	'$rootScope',
 	'httpOnlineUsers',
-	function ($scope,$modal,$log,$rootScope,httpOnlineUsers){
+	'$cookies',
+	function ($scope,$modal,$log,$rootScope,httpOnlineUsers,$cookies){
 		//在rootscope下建立一些全局对象,字段用大小要不go的json库解释不了
 		$rootScope.gUser={};//创建一个全局对象，用来放置用户的id，昵称，头像
 		
 		//浏览器退出前，区别于onunload
-		window.onbeforeunload = function (event){ 
+		//window.onbeforeunload = function (event){ 
 			//刷新不会导致这个事件
 			//删除用户名，必须有return要不这个函数执行不完整
-			httpOnlineUsers.userDelete($rootScope.gUser.Name);//会出现一种情况这条语句没运行完就退出了
-			return '你是否要退出';//会弹出一个对话框，
+			//httpOnlineUsers.userDelete($rootScope.gUser.Name);//会出现一种情况这条语句没运行完就退出了
+			//return '你是否要退出';//会弹出一个对话框，
 			//return;
-		};
+		//};
 		//处理打开模态框
 		$scope.open=function(size){
 			var modalInstance = $modal.open({
@@ -69,6 +70,11 @@ MyApp.controller('BodyCtrl',[
     		});
     	};
     	$scope.open() ;//让控制器加载时就运行，首次打开页面时
+    	$scope.myInit=function(){
+    		//打印出sessionid
+    		console.log($cookies);
+    	}
+    	$scope.myInit();
 	}
 ]);
 

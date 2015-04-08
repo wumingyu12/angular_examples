@@ -58,12 +58,23 @@ var mySessionManager *session.SessionManager
 func SessionManagerInit() {
 	mySessionManager = session.NewSessionManager(logger)
 	logger.Println("session管理器创建成功，onlineUser_main.go")
+	mySessionManager.SetTimeout(30) //超时删除时间
+	mySessionManager.SetPath("/")   //生效域名
+	mySessionManager.OnStart(func(session *session.Session) {
+		println("开始了一个新的session--ID:" + string(session.Id))
+	})
+	//定义超时或者关闭时的行为
+	mySessionManager.OnEnd(func(session *session.Session) {
+		println("abandon")
+	})
 }
 
 //================restful在线用户==========================
 //=========================================================
 //restful服务，在线用户列表,通过id,心跳包，用心跳包监测在线用户
 func GetOnlineUserById(w http.ResponseWriter, r *http.Request) {
+	session := mySessionManager.GetSession(w, r) //根据cookie新建或得到一个session
+	logger.Println("发送心跳包--Id：" + string(session.Id))
 	//虚拟的用户
 	user1 := &OnlineUser{
 		Name: "伍明煜",
