@@ -7,8 +7,8 @@ import (
 	"./session"
 	"encoding/json"
 	"fmt"
-	"github.com/gorilla/mux" //路由库
-	"io/ioutil"              //用来读取post中的body
+	//"github.com/gorilla/mux" //路由库
+	"io/ioutil" //用来读取post中的body
 	"log"
 	"net/http"
 	"os"
@@ -37,9 +37,9 @@ type ChatRoom struct {
 
 //在线用户的结构体
 type OnlineUser struct {
-	Name    string
-	Id      int
-	HeadImg string //头像图标的地址
+	SessionId string
+	Name      string
+	HeadImg   string //头像图标的地址
 }
 
 //实例化一个聊天室
@@ -61,11 +61,12 @@ func SessionManagerInit() {
 	mySessionManager.SetTimeout(30) //超时删除时间
 	mySessionManager.SetPath("/")   //生效域名
 	mySessionManager.OnStart(func(session *session.Session) {
-		println("开始了一个新的session--ID:" + string(session.Id))
+		logger.Println("开始了一个新的session--ID:" + string(session.Id))
 	})
-	//定义超时或者关闭时的行为
+	//定义超时或者关闭时的行为,在用户列表中删除session过期的用户
 	mySessionManager.OnEnd(func(session *session.Session) {
-		println("abandon")
+		delete(chatRoom.OnlineUsers, session.Id)
+		logger.Println("过期---sessionID：" + string(session.Id))
 	})
 }
 
@@ -76,22 +77,22 @@ func GetOnlineUserById(w http.ResponseWriter, r *http.Request) {
 	session := mySessionManager.GetSession(w, r) //根据cookie新建或得到一个session
 	logger.Println("发送心跳包--Id：" + string(session.Id))
 	//虚拟的用户
-	user1 := &OnlineUser{
-		Name: "伍明煜",
-		Id:   1,
-	}
-	user2 := &OnlineUser{
-		Name: "伍明",
-		Id:   2,
-	}
+	//user1 := &OnlineUser{
+	//	Name: "伍明煜",
+	//	Id:   1,
+	//}
+	//user2 := &OnlineUser{
+	//	Name: "伍明",
+	//	Id:   2,
+	//}
 	//给聊天室添加成员
-	chatRoom.OnlineUsers["1"] = user1
-	chatRoom.OnlineUsers["2"] = user2
+	//chatRoom.OnlineUsers["1"] = user1
+	//chatRoom.OnlineUsers["2"] = user2
 
 	//vars := mux.Vars(r) //r为*http.Request
 	//userId := vars["id"]
 	//fmt.Println(userId)
-	fmt.Println(r.Host + r.RequestURI + "请求GetOnlineUserById")
+	//fmt.Println(r.Host + r.RequestURI + "请求GetOnlineUserById")
 	//fmt.Fprintf(w, userId) //向浏览器发送json或者字符串，这里是变量
 
 	//json
@@ -104,23 +105,25 @@ func GetOnlineUserById(w http.ResponseWriter, r *http.Request) {
 	//fmt.Println(string(b))
 }
 
-//添加用户，解释发回的用户json
+//添加用户，解释发回的用户json,登录确定后发回的包
 func AddOnlineUser(w http.ResponseWriter, r *http.Request) {
+	session := mySessionManager.GetSession(w, r) //根据cookie新建或得到一个session
 	//解释json为结构体
 	jsonResult, _ := ioutil.ReadAll(r.Body)
 	r.Body.Close()
 	//fmt.Printf("%s\n", jsonResult)
 	newUser := &OnlineUser{}
+	//将json转化为struct，但json里面只有Name，和HeadImg属性，其他没有的属性值为0
 	json.Unmarshal([]byte(jsonResult), newUser) //注意json字段要大写
-	//fmt.Printf(user.HeadImg)
+	newUser.SessionId = session.Id
 	//在聊天室里面添加新成员，以用户输入的name为key
-	chatRoom.OnlineUsers[newUser.Name] = newUser
+	chatRoom.OnlineUsers[newUser.SessionId] = newUser
 }
 
 //页面退出或刷新时的函数，在聊天室中删除对应name的用户
-func DeleteOnlineUser(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)  //r为*http.Request
-	name := vars["name"] //从url获取要删除的name
-	fmt.Println(r.Host + r.RequestURI + "请求DeleteOnlineUser删除用户")
-	delete(chatRoom.OnlineUsers, name)
-}
+//func DeleteOnlineUser(w http.ResponseWriter, r *http.Request) {
+//	vars := mux.Vars(r)  //r为*http.Request
+//	name := vars["name"] //从url获取要删除的name
+//	fmt.Println(r.Host + r.RequestURI + "请求DeleteOnlineUser删除用户")
+//	delete(chatRoom.OnlineUsers, name)
+//}

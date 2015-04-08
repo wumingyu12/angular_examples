@@ -79,7 +79,7 @@ func main() {
 	mux_router.HandleFunc("/restful/onlineUsers/{id}", onlineUser.GetOnlineUserById).Methods("GET") //得到在线用户的列表
 	mux_router.HandleFunc("/restful/onlineUsers/", onlineUser.AddOnlineUser).Methods("POST")
 	//页面退出时的发送的restful
-	mux_router.HandleFunc("/restful/onlineUsers/{name}", onlineUser.DeleteOnlineUser).Methods("DELETE")
+	//mux_router.HandleFunc("/restful/onlineUsers/{name}", onlineUser.DeleteOnlineUser).Methods("DELETE")
 	http.Handle("/", mux_router) //这一句别忘了 否则前面的mux_router是不作用的
 	fmt.Println("正在监听80端口,main.go")
 	//http.HandleFunc("/", NotFoundHandler) //当没有找到路径名字时，后面改为用mux库了
