@@ -213,6 +213,18 @@ MyApp.controller('ueCtrl',[
 		window.ue.setShow();//引用了外部的全局变量
 		console.log("显示编辑界面");
 	};
+	//根据是否为自己发出的消息判断消息显示在左还是右
+	$scope.stypleLeftOrRight=function(msg){
+		//console.log(msg.SessionId);
+		//console.log($cookies.SessionId);
+		if(msg.SessionId==$cookies.SessionId){//自己的信息显示在左边
+			console.log("left");
+			return {'text-align':'left'}; //注意当ng-style时被漏了｛｝,并且没有“”
+		}else{
+			console.log("right");
+			return {'text-align':'right'};
+		}
+	};
 
 	$scope.sendMsg=function(){
 		//$scope.msgs=$scope.msgs+'\

@@ -81,14 +81,15 @@
 			<div ng-controller="ueCtrl" class="col-md-9 col-sm-9 my-right-pan well">
 				<!-- 消息框 当msgCount改变时移动到底部-->
 				<div data-scroll-to-bottom='msgCount' class="my-rightTop-pan well" style="padding:2px 2px;overflow-y:auto;" >
-					<div ng-repeat="msg in $root.gUserList.MsgBox">
-						<img ng-src="{{msg.HeadImg}}" width="40px"><!-- 头像图标 -->
-						<span>{{msg.Name}}</span>
-						<small style="color:rgb(200,200,200);">{{msg.Time}}</small><!-- 消息发送的时间,小型字体 -->
-						
-						<!-- 消息内容 -->
-						<div style="padding:0px 0px 0px 50px">
-							<div class="well" style="background-color:rgb(200,200,230);display:inline-block;padding:0px;" ng-bind-html="msg.Msg | to_trusted"></div>
+					<div ng-repeat="msg in $root.gUserList.MsgBox" ng-style="stypleLeftOrRight(msg)">
+						<div style="display:inline-block;margin:0px 20px 0px 0px">
+							<img ng-src="{{msg.HeadImg}}" width="40px"><!-- 头像图标 -->
+							<span >{{msg.Name}}</span>
+							<small style="color:rgb(200,200,200);">{{msg.Time}}</small><!-- 消息发送的时间,小型字体 -->
+							<!-- 消息内容 -->
+							<div style="padding:0px 0px 0px 50px;text-align:left;">
+								<div class="well my-msgleft"  ng-bind-html="msg.Msg | to_trusted"></div>
+							</div>
 						</div>
 					</div>
 				</div>
