@@ -13,6 +13,7 @@ import (
 	"net/http"
 	"os"
 	"strconv" //字符串转换
+	"time"
 )
 
 //================json=================
@@ -51,6 +52,7 @@ type NewMsg struct {
 	Msg       string //发送过来的消息
 	Name      string //发送该消息的用户名
 	HeadImg   string //该用户的头像
+	Time      string //发送消息的时间
 }
 
 //实例化一个聊天室
@@ -153,6 +155,9 @@ func AddNewMsg(w http.ResponseWriter, r *http.Request) {
 	sessionValue := session.Value.(OnlineUser)
 	newmsg.Name = sessionValue.Name
 	newmsg.HeadImg = sessionValue.HeadImg
+	//const layout = "Jan 2, 2006 at 3:04pm (MST)"
+	const layout = "2006-01-02 15:04:05"
+	newmsg.Time = time.Now().Format(layout) //奇葩的格式化方式
 	//-----------------------
 	chatRoom.CurrentMsgNum = chatRoom.CurrentMsgNum + 1 //聊天室消息数加1
 	msgNumStr := strconv.Itoa(chatRoom.CurrentMsgNum)   //int 转string
