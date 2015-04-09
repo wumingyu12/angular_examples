@@ -77,8 +77,10 @@ func main() {
 	//仿qq聊天的restful
 	onlineUser.SessionManagerInit()                                                                 //初始化Session管理器
 	mux_router.HandleFunc("/restful/onlineUsers/{id}", onlineUser.GetOnlineUserById).Methods("GET") //得到在线用户的列表
+	//注意/restful/onlineUsers/与/restful/onlineUsers的区别，前一个会响应/restful/onlineUsers/123等请求后面的不会
 	mux_router.HandleFunc("/restful/onlineUsers/", onlineUser.AddOnlineUser).Methods("POST")
-	//页面退出时的发送的restful
+	mux_router.HandleFunc("/restful/addNewMsg", onlineUser.AddNewMsg).Methods("POST")
+	//页面退出时的发送的restful /restful/addNewMsg
 	//mux_router.HandleFunc("/restful/onlineUsers/{name}", onlineUser.DeleteOnlineUser).Methods("DELETE")
 	http.Handle("/", mux_router) //这一句别忘了 否则前面的mux_router是不作用的
 	fmt.Println("正在监听80端口,main.go")

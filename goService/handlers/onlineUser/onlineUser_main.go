@@ -12,6 +12,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv" //字符串转换
 )
 
 //================json=================
@@ -30,9 +31,11 @@ import (
 
 //一个聊天室结构体
 type ChatRoom struct {
-	IfOnline int //是否是在线聊天室
+	IfOnline      int //是否是在线聊天室
+	CurrentMsgNum int //标识当前聊天室有多少条消息
 	//如果想json可以解释map就要用map[string]，不能用map[int]
 	OnlineUsers map[string]*OnlineUser //在线用户的map用OnlineUsers[1]指代
+	MsgBox      map[string]*NewMsg     //公共消息
 }
 
 //在线用户的结构体
@@ -42,11 +45,19 @@ type OnlineUser struct {
 	HeadImg   string //头像图标的地址
 }
 
+//页面请求加入的消息
+type NewMsg struct {
+	SessionId string //哪个session发过来的
+	Msg       string //发送过来的消息
+}
+
 //实例化一个聊天室
 var chatRoom *ChatRoom = &ChatRoom{
 	//在线
-	IfOnline:    1,
-	OnlineUsers: make(map[string]*OnlineUser),
+	IfOnline:      1,
+	CurrentMsgNum: 0, //一开始是0条消息
+	OnlineUsers:   make(map[string]*OnlineUser),
+	MsgBox:        make(map[string]*NewMsg),
 }
 
 var logger = log.New(os.Stdout, "", log.Ldate|log.Ltime)
@@ -127,3 +138,15 @@ func AddOnlineUser(w http.ResponseWriter, r *http.Request) {
 //	fmt.Println(r.Host + r.RequestURI + "请求DeleteOnlineUser删除用户")
 //	delete(chatRoom.OnlineUsers, name)
 //}
+
+//添加新信息的请求
+func AddNewMsg(w http.ResponseWriter, r *http.Request) {
+	//session := mySessionManager.GetSession(w, r) //根据cookie新建或得到一个session
+	jsonResult, _ := ioutil.ReadAll(r.Body)
+	r.Body.Close()
+	newmsg := &NewMsg{}
+	json.Unmarshal([]byte(jsonResult), newmsg)          //注意json字段要大写
+	chatRoom.CurrentMsgNum = chatRoom.CurrentMsgNum + 1 //聊天室消息数加1
+	msgNumStr := strconv.Itoa(chatRoom.CurrentMsgNum)
+	chatRoom.MsgBox[msgNumStr] = newmsg //给聊天室最新一条信息保存
+}

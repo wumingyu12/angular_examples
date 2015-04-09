@@ -19,8 +19,11 @@ MyApp.factory('httpOnlineUsers',['$http',function($http){
 		//userDelete:function(userName){ //删除资源，退出或刷新时调用
 		//	return $http.delete(baseurl+'/'+userName);
 		//}
-		poll:function(id){ 
+		poll:function(id){//心跳请求
 			return $http.get(baseurl+'/'+id);
+		},
+		httpSendMsg:function(msg){ 
+			return $http.post('/restful/addNewMsg',msg);//将新信息post给服务器
 		}
 	};
 }]);
@@ -199,7 +202,11 @@ MyApp.filter('to_trusted', ['$sce', function ($sce) {
 	};
 }]);
 //控制器
-MyApp.controller('ueCtrl', function ($scope) {
+MyApp.controller('ueCtrl',[
+	'$scope',
+	'httpOnlineUsers',
+	'$cookies',
+	function ($scope,httpOnlineUsers,$cookies) {
 	$scope.msgs='<p><span style="color: rgb(141, 179, 226);">方芳芳</span><br/></p>';
 	$scope.msgCount=0;//
 	$scope.setShow=function(){
@@ -225,5 +232,11 @@ MyApp.controller('ueCtrl', function ($scope) {
         	    '+ue.getContent()+'\
             </div>\
         </div>';//引用了外部的全局变量
+
+        var myMsg={};
+        myMsg.Msg=ue.getContent();
+        myMsg.SessionId=$cookies.SessionId;
+        //给服务器发送请求
+        httpOnlineUsers.httpSendMsg(myMsg);
 	};
-});
+}]);
