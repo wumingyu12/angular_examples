@@ -79,8 +79,12 @@
 				</div>
 			</div>
 			<div ng-controller="ueCtrl" class="col-md-9 col-sm-9 my-right-pan well">
-				<!-- 消息框 -->
-				<div data-scroll-to-bottom='msgCount' class="my-rightTop-pan well" style="padding:2px 2px;overflow-y:auto;" ng-bind-html="msgs | to_trusted">
+				<!-- 消息框 当msgCount改变时移动到底部-->
+				<div data-scroll-to-bottom='msgCount' class="my-rightTop-pan well" style="padding:2px 2px;overflow-y:auto;" >
+					<div ng-repeat="msg in $root.gUserList.MsgBox">
+						<div ng-bind-html="msg.Msg | to_trusted"></div>
+						<img ng-src="{{msg.HeadImg}}">
+					</div>
 				</div>
 				<!-- 编辑框 -->
 				<div class="my-rightBottom-pan">
@@ -95,6 +99,8 @@
 						</script>
 					</div>
 				</div>
+
+
 			</div>
 		</div>
 	</div>

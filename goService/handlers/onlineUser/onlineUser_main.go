@@ -49,6 +49,8 @@ type OnlineUser struct {
 type NewMsg struct {
 	SessionId string //哪个session发过来的
 	Msg       string //发送过来的消息
+	Name      string //发送该消息的用户名
+	HeadImg   string //该用户的头像
 }
 
 //实例化一个聊天室
@@ -127,7 +129,8 @@ func AddOnlineUser(w http.ResponseWriter, r *http.Request) {
 	//将json转化为struct，但json里面只有Name，和HeadImg属性，其他没有的属性值为0
 	json.Unmarshal([]byte(jsonResult), newUser) //注意json字段要大写
 	newUser.SessionId = session.Id
-	//在聊天室里面添加新成员，以用户输入的name为key
+	session.Value = *newUser //将session保存的值设置为新加入的用户
+	//在聊天室里面添加新成员，以用户输入的session为key
 	chatRoom.OnlineUsers[newUser.SessionId] = newUser
 }
 
@@ -141,12 +144,17 @@ func AddOnlineUser(w http.ResponseWriter, r *http.Request) {
 
 //添加新信息的请求
 func AddNewMsg(w http.ResponseWriter, r *http.Request) {
-	//session := mySessionManager.GetSession(w, r) //根据cookie新建或得到一个session
+	session := mySessionManager.GetSession(w, r) //根据cookie新建或得到一个session
 	jsonResult, _ := ioutil.ReadAll(r.Body)
 	r.Body.Close()
 	newmsg := &NewMsg{}
-	json.Unmarshal([]byte(jsonResult), newmsg)          //注意json字段要大写
+	json.Unmarshal([]byte(jsonResult), newmsg) //注意json字段要大写
+	//从session中取出值放到返回的msg中再放回聊天室中
+	sessionValue := session.Value.(OnlineUser)
+	newmsg.Name = sessionValue.Name
+	newmsg.HeadImg = sessionValue.HeadImg
+	//-----------------------
 	chatRoom.CurrentMsgNum = chatRoom.CurrentMsgNum + 1 //聊天室消息数加1
-	msgNumStr := strconv.Itoa(chatRoom.CurrentMsgNum)
-	chatRoom.MsgBox[msgNumStr] = newmsg //给聊天室最新一条信息保存
+	msgNumStr := strconv.Itoa(chatRoom.CurrentMsgNum)   //int 转string
+	chatRoom.MsgBox[msgNumStr] = newmsg                 //给聊天室最新一条信息保存
 }

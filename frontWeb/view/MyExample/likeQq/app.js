@@ -215,23 +215,23 @@ MyApp.controller('ueCtrl',[
 	};
 
 	$scope.sendMsg=function(){
-		$scope.msgs=$scope.msgs+'\
-		<h5 style="padding:0px;margin:0px 0px 0px 10px;">我：</h5>\
-		<div class="well" style="padding:2px;margin:5px 0px 10px 30px;background-color:rgb(200,200,230);\
-		    width:auto; display:inline-block !important;">\
-        	'+ue.getContent()+'\
-        </div>';//引用了外部的全局变量
-		//console.log($scope.hasNewDiv);
-		$scope.msgCount=$scope.msgCount+1;
+		//$scope.msgs=$scope.msgs+'\
+		//<h5 style="padding:0px;margin:0px 0px 0px 10px;">我：</h5>\
+		//<div class="well" style="padding:2px;margin:5px 0px 10px 30px;background-color:rgb(200,200,230);\
+		//    width:auto; display:inline-block !important;">\
+        //	'+ue.getContent()+'\
+        //</div>';//引用了外部的全局变量
+		////console.log($scope.hasNewDiv);
+		//$scope.msgCount=$scope.msgCount+1;
 
-		$scope.msgs=$scope.msgs+'\
-		<div class="text-right">\
-			<h5 style="padding:0px;margin:0px 0px 0px 10px;">机器人：</h5>\
-			<div class="well" style="padding:2px;margin:5px 30px 10px 30px;background-color:rgb(100,180,230);\
-		        width:auto; display:inline-block !important;">\
-        	    '+ue.getContent()+'\
-            </div>\
-        </div>';//引用了外部的全局变量
+		//$scope.msgs=$scope.msgs+'\
+		//<div class="text-right">\
+		//	<h5 style="padding:0px;margin:0px 0px 0px 10px;">机器人：</h5>\
+		//	<div class="well" style="padding:2px;margin:5px 30px 10px 30px;background-color:rgb(100,180,230);\
+		//        width:auto; display:inline-block !important;">\
+        //	    '+ue.getContent()+'\
+        //    </div>\
+        //</div>';//引用了外部的全局变量
 
         var myMsg={};
         myMsg.Msg=ue.getContent();
