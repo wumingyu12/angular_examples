@@ -80,8 +80,8 @@
 			</div>
 			<div ng-controller="ueCtrl" class="col-md-9 col-sm-9 my-right-pan well">
 				<!-- 消息框 当msgCount改变时移动到底部-->
-				<div data-scroll-to-bottom='msgCount' class="my-rightTop-pan well" style="padding:2px 2px;overflow-y:auto;" >
-					<div ng-repeat="msg in $root.gUserList.MsgBox" ng-style="stypleLeftOrRight(msg)">
+				<div data-scroll-to-bottom='$root.gUserList.CurrentMsgNum' class="my-rightTop-pan well" style="padding:2px 2px;overflow-y:auto;" >
+					<div ng-repeat="msg in $root.gUserList.MsgList" ng-style="stypleLeftOrRight(msg)">
 						<div style="display:inline-block;margin:0px 20px 0px 0px">
 							<img ng-src="{{msg.HeadImg}}" width="40px"><!-- 头像图标 -->
 							<span >{{msg.Name}}</span>

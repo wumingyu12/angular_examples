@@ -12,7 +12,7 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"strconv" //字符串转换
+	//"strconv" //字符串转换
 	"time"
 )
 
@@ -36,7 +36,8 @@ type ChatRoom struct {
 	CurrentMsgNum int //标识当前聊天室有多少条消息
 	//如果想json可以解释map就要用map[string]，不能用map[int]
 	OnlineUsers map[string]*OnlineUser //在线用户的map用OnlineUsers[1]指代
-	MsgBox      map[string]*NewMsg     //公共消息
+	//MsgBox      map[string]*NewMsg     //公共消息
+	MsgList []*NewMsg
 }
 
 //在线用户的结构体
@@ -61,7 +62,8 @@ var chatRoom *ChatRoom = &ChatRoom{
 	IfOnline:      1,
 	CurrentMsgNum: 0, //一开始是0条消息
 	OnlineUsers:   make(map[string]*OnlineUser),
-	MsgBox:        make(map[string]*NewMsg),
+	MsgList:       make([]*NewMsg, 0, 10), //指针数组,长度0，容量10
+	//MsgBox:        make(map[string]*NewMsg),//无序的map会导致聊天数据在ng-repeat时错乱
 }
 
 var logger = log.New(os.Stdout, "", log.Ldate|log.Ltime)
@@ -152,7 +154,11 @@ func AddNewMsg(w http.ResponseWriter, r *http.Request) {
 	newmsg := &NewMsg{}
 	json.Unmarshal([]byte(jsonResult), newmsg) //注意json字段要大写
 	//从session中取出值放到返回的msg中再放回聊天室中
-	sessionValue := session.Value.(OnlineUser)
+	sessionValue, ok := session.Value.(OnlineUser) //ok代表接口内是否有这个类型
+	if !ok {                                       //如果没有这个类型
+		fmt.Println("onlineUser_main.go 169行错误接口转换。")
+		return
+	}
 	newmsg.Name = sessionValue.Name
 	newmsg.HeadImg = sessionValue.HeadImg
 	//const layout = "Jan 2, 2006 at 3:04pm (MST)"
@@ -160,6 +166,7 @@ func AddNewMsg(w http.ResponseWriter, r *http.Request) {
 	newmsg.Time = time.Now().Format(layout) //奇葩的格式化方式
 	//-----------------------
 	chatRoom.CurrentMsgNum = chatRoom.CurrentMsgNum + 1 //聊天室消息数加1
-	msgNumStr := strconv.Itoa(chatRoom.CurrentMsgNum)   //int 转string
-	chatRoom.MsgBox[msgNumStr] = newmsg                 //给聊天室最新一条信息保存
+	//msgNumStr := strconv.Itoa(chatRoom.CurrentMsgNum)   //int 转string
+	//chatRoom.MsgBox[msgNumStr] = newmsg                 //给聊天室最新一条信息保存
+	chatRoom.MsgList = append(chatRoom.MsgList, newmsg)
 }

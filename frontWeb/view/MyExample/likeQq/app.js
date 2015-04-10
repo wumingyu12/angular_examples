@@ -190,6 +190,7 @@ MyApp.directive('scrollToBottom', function(){
         link: function postLink(scope, elem) {//elem为jquery对象
             scope.$watch('trigger', function() {
                 //elem[0].scrollTop = 0;
+                console.log('trigger');
                 elem[0].scrollTop=elem[0].scrollHeight;
             });
         }
@@ -218,10 +219,10 @@ MyApp.controller('ueCtrl',[
 		//console.log(msg.SessionId);
 		//console.log($cookies.SessionId);
 		if(msg.SessionId==$cookies.SessionId){//自己的信息显示在左边
-			console.log("left");
+			//console.log("left");
 			return {'text-align':'left'}; //注意当ng-style时被漏了｛｝,并且没有“”
 		}else{
-			console.log("right");
+			//console.log("right");
 			return {'text-align':'right'};
 		}
 	};
