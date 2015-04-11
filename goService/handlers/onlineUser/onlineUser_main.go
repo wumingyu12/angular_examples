@@ -32,7 +32,7 @@ import (
 
 //一个聊天室结构体
 type ChatRoom struct {
-	IfOnline      int //是否是在线聊天室
+	UserNum       int //是否是在线用户
 	CurrentMsgNum int //标识当前聊天室有多少条消息
 	//如果想json可以解释map就要用map[string]，不能用map[int]
 	OnlineUsers map[string]*OnlineUser //在线用户的map用OnlineUsers[1]指代
@@ -59,7 +59,7 @@ type NewMsg struct {
 //实例化一个聊天室
 var chatRoom *ChatRoom = &ChatRoom{
 	//在线
-	IfOnline:      1,
+	UserNum:       0,
 	CurrentMsgNum: 0, //一开始是0条消息
 	OnlineUsers:   make(map[string]*OnlineUser),
 	MsgList:       make([]*NewMsg, 0, 10), //指针数组,长度0，容量10
@@ -83,6 +83,9 @@ func SessionManagerInit() {
 	//定义超时或者关闭时的行为,在用户列表中删除session过期的用户
 	mySessionManager.OnEnd(func(session *session.Session) {
 		delete(chatRoom.OnlineUsers, session.Id)
+		if chatRoom.UserNum > 0 {
+			chatRoom.UserNum = chatRoom.UserNum - 1 //聊天室内用户数减1
+		}
 		logger.Println("过期---sessionID：" + string(session.Id))
 	})
 }
@@ -136,6 +139,7 @@ func AddOnlineUser(w http.ResponseWriter, r *http.Request) {
 	session.Value = *newUser //将session保存的值设置为新加入的用户
 	//在聊天室里面添加新成员，以用户输入的session为key
 	chatRoom.OnlineUsers[newUser.SessionId] = newUser
+	chatRoom.UserNum = chatRoom.UserNum + 1 //聊天室内用户数加1
 }
 
 //页面退出或刷新时的函数，在聊天室中删除对应name的用户

@@ -53,11 +53,18 @@ MyApp.controller('BodyCtrl',[
 	        	//定时执行的函数，为一个get json
 	        	httpOnlineUsers.poll("all").success(function(data) {
 				//console.log(data);
-					$rootScope.gUserList=data;
-					console.log($rootScope.gUserList);
+					//$rootScope.gUserList=data;
+					//如果数据相同就是没有更新，那就不重新赋值
+					//如果新包与旧包的用户数与消息数都相同的话
+					if(data.UserNum==$rootScope.gUserList.UserNum&&data.CurrentMsgNum==$rootScope.gUserList.CurrentMsgNum){
+						console.log("心跳包返回数据相同。");
+					}else{
+						$rootScope.gUserList=data;
+						console.log($rootScope.gUserList);
+					};	
 				});
 	            longPoll();//最后记得回调
-	        }, 5000);//10秒执行一次
+	        }, 3000);//10秒执行一次
 
 	    }; 
 		//longPoll();//记得一开始要启动定时
