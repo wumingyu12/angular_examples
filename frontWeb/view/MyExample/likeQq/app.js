@@ -184,18 +184,72 @@ MyApp.controller('userListCtrl',[
 MyApp.directive('scrollToBottom', function(){
     return {
         restrict: 'A',
-        scope: {
-            trigger: '=scrollToBottom'
-        },
+        //自定义作用域
+        //scope: {
+        //    trigger: '=scrollToBottom'
+        //},
         link: function postLink(scope, elem) {//elem为jquery对象
-            scope.$watch('trigger', function() {
+            scope.$watch(function () {
+   				//return document.body.innerHTML;//检测整个html的变化下策。
+   				return elem[0].innerHTML;//检测html对象的变化来确定上策
+			}, function() {
                 //elem[0].scrollTop = 0;
-                console.log('trigger');
+                //console.log('trigger');
                 elem[0].scrollTop=elem[0].scrollHeight;
             });
         }
     };
 });
+//===========================================================================================
+//这个指令要和下面的指令配合使用才可以
+//ng-repeat用的指令每次生成一个ng-repeat时都调用一次让父div的滚动条到底
+//MyApp.directive('scrollToBottom', function(){
+  //  return {
+ //       restrict: 'A',
+        //自定义作用域
+ //       controller:function($scope){
+ //       	var element=null;
+ //       	var num=1;
+        	
+ //       	this.setElement = function(el){
+ //       		element = el;
+//      		};
+ //     		this.addItem = function(item){
+        		//console.log("Adding item", item, item.clientHeight);
+        		//element.scrollTop = (element.scrollTop+item.clientHeight+1);
+        		//$id.scrollTop($id[0].scrollHeight);
+//        		element.scrollTop=element.scrollHeight;
+//        		alert("22222");
+//        		console.log(element.scrollTop);
+//        		console.log(element.scrollHeight);
+       			//1px for margin from your css (surely it would be possible
+       			// to make it more generic, rather then hard-coding the value)
+//      		};
+ //       },
+ //       link:function pretLink(scope,el,attr, ctrl) {
+//			ctrl.setElement(el[0]);
+//		}
+//    };
+//});
+//这个指令要和上面的指令配合使用才可以
+
+//MyApp.directive('sendAddMsg',function(){
+//	return{
+//		restrict:'A',
+//		require : "^scrollToBottom",
+//		link:function pretLink(scope, iElement, iAttrs, controller){//4个注入
+			//这样是不行的因为每一次加入ng-repeat都更新了新的div的值
+			//iElement.parent()[0].scrollTop=iElement.parent()[0].scrollHeight;
+			//console.log(iElement[0].scrollTop);
+			//console.log(iElement[0].scrollHeight);
+			//console.log(iElement.parent()[0]);
+//			controller.addItem();
+//			alert("1111");//通过alert断点观测是因为没有渲染就执行了到最低而导致的不能让消息添加时就到底部
+//		}
+//	}
+//============================================================================================
+
+
 //过滤器，可以让ng-blind-html可以绑定带style的html
 MyApp.filter('to_trusted', ['$sce', function ($sce) {
 	return function (text) {
@@ -209,7 +263,7 @@ MyApp.controller('ueCtrl',[
 	'$cookies',
 	function ($scope,httpOnlineUsers,$cookies) {
 	$scope.msgs='<p><span style="color: rgb(141, 179, 226);">方芳芳</span><br/></p>';
-	$scope.msgCount=0;//
+	//$scope.msgCount=0;//
 	$scope.setShow=function(){
 		window.ue.setShow();//引用了外部的全局变量
 		console.log("显示编辑界面");
