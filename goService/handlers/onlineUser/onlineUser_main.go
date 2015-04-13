@@ -42,9 +42,10 @@ type ChatRoom struct {
 
 //在线用户的结构体
 type OnlineUser struct {
-	SessionId string
-	Name      string
-	HeadImg   string //头像图标的地址
+	SessionId  string
+	Name       string
+	HeadImg    string //头像图标的地址
+	SendMsgNum int    //每个用户发送的消息条数
 }
 
 //页面请求加入的消息
@@ -152,7 +153,9 @@ func AddOnlineUser(w http.ResponseWriter, r *http.Request) {
 
 //添加新信息的请求
 func AddNewMsg(w http.ResponseWriter, r *http.Request) {
-	session := mySessionManager.GetSession(w, r) //根据cookie新建或得到一个session
+	session := mySessionManager.GetSession(w, r)     //根据cookie新建或得到一个session
+	chatRoom.OnlineUsers[session.Id].SendMsgNum += 1 //发送消息的用户自身消息数加1
+
 	jsonResult, _ := ioutil.ReadAll(r.Body)
 	r.Body.Close()
 	newmsg := &NewMsg{}
