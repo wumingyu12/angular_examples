@@ -64,7 +64,7 @@ MyApp.controller('BodyCtrl',[
 					};	
 				});
 	            longPoll();//最后记得回调
-	        }, 3000);//10秒执行一次
+	        }, 1000);//10秒执行一次
 
 	    }; 
 		//longPoll();//记得一开始要启动定时
@@ -314,10 +314,19 @@ MyApp.controller('ueCtrl',[
         //</div>';//引用了外部的全局变量
 
         var myMsg={};
-        myMsg.Msg=ue.getContent();
-        ue.setContent('');//清空编辑框
+        myMsg.Msg=window.ue.getContent();
+        window.ue.setContent('');//清空编辑框
         myMsg.SessionId=$cookies.SessionId;
         //给服务器发送请求
         httpOnlineUsers.httpSendMsg(myMsg);
 	};
+
+	//按下回车发送信息
+	window.ue.addListener("keydown",function(type,event){
+   		//判断是不是ctrl + enter
+   		//if(event.ctrlKey && 13===event.keyCode){
+   		if(13===event.keyCode){
+    		$scope.sendMsg();				
+    	}
+  	});
 }]);
