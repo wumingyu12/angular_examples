@@ -83,9 +83,9 @@ func main() {
 	//页面退出时的发送的restful /restful/addNewMsg
 	//mux_router.HandleFunc("/restful/onlineUsers/{name}", onlineUser.DeleteOnlineUser).Methods("DELETE")
 	http.Handle("/", mux_router) //这一句别忘了 否则前面的mux_router是不作用的
-	fmt.Println("正在监听80端口,main.go")
+	fmt.Println("正在监听2222端口,main.go")
 	//http.HandleFunc("/", NotFoundHandler) //当没有找到路径名字时，后面改为用mux库了
-	err1 := http.ListenAndServe(":80", nil)
+	err1 := http.ListenAndServe(":2222", nil)
 	if err1 != nil {
 		log.Fatal("ListenAndServe:", err1)
 	}

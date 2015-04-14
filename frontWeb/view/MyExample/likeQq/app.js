@@ -85,8 +85,8 @@ MyApp.controller('BodyCtrl',[
       			templateUrl: 'myModalContent.html',
       			controller: 'ModalInstanceCtrl',
       			size: size,
-      			//backdrop:"static",//点击空白处不会退出modal
-      			//keyboard :false, //按键盘esc不会退出modal
+      			backdrop:"static",//点击空白处不会退出modal
+      			keyboard :false, //按键盘esc不会退出modal
       			resolve: {//向模态框发送一些值，通过注入
         			//items: function () {//一个属性或对象可以在modal的控制器里面注入
           			//	return $scope.items;
@@ -153,6 +153,12 @@ MyApp.controller('ModalInstanceCtrl',[
 			//httpOnlineUsers.save($scope.cachUser);
 			//向调用modal的控制器返回一些东西
 			$modalInstance.close($scope.cachUser);//BodyCtrl,回调用的参数
+		};
+		//回车登录
+		$scope.myKeyup=function(event){
+			if(event.keyCode==13){
+				$scope.login();
+			};
 		};
 
   		//$scope.cancel = function () {
@@ -309,6 +315,7 @@ MyApp.controller('ueCtrl',[
 
         var myMsg={};
         myMsg.Msg=ue.getContent();
+        ue.setContent('');//清空编辑框
         myMsg.SessionId=$cookies.SessionId;
         //给服务器发送请求
         httpOnlineUsers.httpSendMsg(myMsg);

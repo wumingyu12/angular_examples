@@ -20,7 +20,7 @@
 <body ng-controller="BodyCtrl">
 	<!-- 弹出的框内容开始，登录模态框  'ModalInstanceCtrl-->
 	<script type="text/ng-template" id="myModalContent.html">
-		<div class="panel panel-success">
+		<div class="panel panel-success" >
   			<div class="panel-heading text-center">
     			<h1>登录</h1>
   			</div>
@@ -47,7 +47,7 @@
 							<div  class="input-group" ng-class="{'has-error':isNameEmpt}">
 							<!--glyphicon 具有top：1 -->
   								<span class="input-group-addon glyphicon glyphicon-user" style="top:0px" ></span>
-  								<input style="vertical-align:middle;" ng-model="cachUser.Name"  class="form-control " placeholder="{{nametip}}">
+  								<input autofocus ng-keyup="myKeyup($event)" style="vertical-align:middle;" ng-model="cachUser.Name"  class="form-control " placeholder="{{nametip}}">
 							</div>
 						</div>
 					</div>
