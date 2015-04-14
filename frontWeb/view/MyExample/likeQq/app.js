@@ -139,6 +139,8 @@ MyApp.controller('ModalInstanceCtrl',[
 		$scope.cachUser={};//创建一个对象
 		$scope.cachUser.Name="";//记录用户的昵称
 		$scope.cachUser.HeadImg="";//用户的头像
+
+		$scope.sexual="male";//用户选择的性别
 		$scope.login = function () {//按下登录按钮
 			//如果输入的昵称为空
 			if($scope.cachUser.Name==""){
@@ -146,8 +148,14 @@ MyApp.controller('ModalInstanceCtrl',[
 				$scope.isNameEmpt=true;//会让一个class显示出来
 				return; 
 			}
-			//得到当前的轮播对象的img地址
-			$scope.cachUser.HeadImg=slides.filter(function (s) { return s.active; })[0].image;
+			//得到当前的轮播对象的img地址,实施上【0】代表匹配active为true的对象，如果是选择了女性，有两个对象是active的
+			//这时我们选择【1】
+			if ($scope.sexual=="male") {//如果选择男性头像
+				$scope.cachUser.HeadImg=slides.filter(function (s) { return s.active; })[0].image;
+			}else{//如果选择女性头像
+				$scope.cachUser.HeadImg=slides.filter(function (s) { return s.active; })[1].image;
+			};
+			
 			//console.log($scope.cachUser);
 			//用restful向后台发送post请求更新后台用户
 			//httpOnlineUsers.save($scope.cachUser);
@@ -179,6 +187,11 @@ MyApp.controller('ModalInstanceCtrl',[
 		for (var i=0; i<5; i++) {
 		    $scope.addSlide();
 		};
+		slides.push({image:'touxiang/girl-1.png',});//直接创建就不行
+		slides.push({image:'touxiang/girl-2.png',});
+		slides.push({image:'touxiang/girl-3.png',});
+		slides.push({image:'touxiang/girl-4.png',});
+		slides.push({image:'touxiang/girl-5.png',});
 	}
 ]);
 

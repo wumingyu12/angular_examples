@@ -30,10 +30,10 @@
 		    		<div class="row">
 						<div class="col-sm-offset-1 col-sm-10">
 							<carousel interval="0">
-								<slide ng-repeat="slide in slides" active="slide.active">
+								<slide ng-repeat="slide in (slides | filter:sexual)" active="slide.active">
 									<img ng-src="{{slide.image}}" style="margin:auto;">				
 									<div >
-										<h4>&nbsp</h4><!--空格 -->
+										<h3>&nbsp</h3><!--用空格让小圆圈下移融入白色的背景中 -->
 									</div>
 								</slide>
 							</carousel>
@@ -49,10 +49,18 @@
   								<span class="input-group-addon glyphicon glyphicon-user" style="top:0px" ></span>
   								<input autofocus ng-keyup="myKeyup($event)" style="vertical-align:middle;" ng-model="cachUser.Name"  class="form-control " placeholder="{{nametip}}">
 							</div>
+						</div>	  
+					</div>
+					<!--男女选择 -->
+					<div class="form-group ">
+						<div class="col-sm-offset-3 col-sm-2">
+							<label><input  type="radio" name="optionsRadios" ng-model="sexual" value="male" checked>男</label>
+						</div>
+						<div class="col-sm-3">
+							<label><input  type="radio" name="optionsRadios" ng-model="sexual" value="girl">女</label>
 						</div>
 					</div>
-					</br>
-					</br>
+
 					<div class="row">
 						<div class="col-sm-offset-2 col-sm-8">
 							<button ng-click="login()" type="button" class="btn btn-success btn-lg btn-block">登录</button>
@@ -104,6 +112,7 @@
 						<script type="text/javascript">
 							var ue = UE.getEditor('editor');
 							//一定要在上面的dom的后面要不还没创建是不能得到id的
+
 						</script>
 					</div>
 				</div>
