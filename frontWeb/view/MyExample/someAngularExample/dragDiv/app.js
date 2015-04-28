@@ -12,24 +12,32 @@ MyApp.directive('sr',function(){
 		scope:{
 			//按下鼠标时记录的top值
 			//按下鼠标时的pagey值
+			slwidth:'@',
 		},
-		template:'<div style="background-color:rgb(230,230,230);height: 200px;width:200px;top:200px;position:absolute;">'+
-		
+		template:'<div style="background-color:rgb(230,230,230);height: 50%;width:100%;">'+
+					
+				'</div>'+
+				'<div style="background-color:rgb(230,230,23,0.4);height: 50%;width:100%;position:relative;">'+
+					'<!-- 滑动条 --><div style="background-color:rgb(230,23,213);height: 25%;width:100%;top:50%;position:absolute;border-radius:10px;">'+
+					'</div>'+
+					'<!-- 滑动块 --><div class="block" style="left:0px;background-color:rgba(20,230,10,0.6);height: 35%;width:10%;top:45%;position:absolute;border-radius:10px;">'+
+					'</div>'+
 				'</div>',
 		link:function(scope,elem,attrs,ctrl){
-			elem.bind('mousedown',function(e){
-				scope.downTop=parseInt(elem.children().css('top'));//转化为整型,滑块的当前高
-				scope.downPageY=e.pageY;//按下鼠标时的pagey
-
+			var scoll=elem.find("div").eq(3);//eq(3)要根据上面的html变化而变化，指滑动块
+			scoll.bind('mousedown',function(e){
+				scope.downLeft=parseInt(scoll.css('left'));//转化为整型,滑块的当前高
+				scope.downPageX=e.pageX;//按下鼠标时的pagey
+				console.log(scoll.css('left'));
 				//按下时绑定移动事件
-				elem.bind('mousemove',function(e){
-				 	scope.curTop=e.pageY-scope.downPageY+scope.downTop;
-				 	elem.children().css('top',scope.curTop+'px');
+				scoll.bind('mousemove',function(e){
+				 	scope.curLeft=e.pageX-scope.downPageX+scope.downLeft;
+				 	scoll.css('left',scope.curLeft+'px');
 				});
 			});
 			//松开鼠标时解除移动事件
-			elem.bind('mouseup',function(e){
-				elem.unbind('mousemove');
+			scoll.bind('mouseup',function(e){
+				scoll.unbind('mousemove');
 			});
 		}
 	};
