@@ -25,20 +25,36 @@ MyApp.directive('sr',function(){
 				'</div>',
 		link:function(scope,elem,attrs,ctrl){
 			var scoll=elem.find("div").eq(3);//eq(3)要根据上面的html变化而变化，指滑动块
+			var scollline=elem.find("div").eq(2);//eq(2)要根据上面的html变化而变化，指滑动背景条
+			var hasbind=false;//变量用了避免异步处理中还没unbind又bind了
+			var curLeft;
 			scoll.bind('mousedown',function(e){
-				scope.downLeft=parseInt(scoll.css('left'));//转化为整型,滑块的当前高
-				scope.downPageX=e.pageX;//按下鼠标时的pagey
-				console.log(scoll.css('left'));
+				console.log("down");
+				var downLeft=parseInt(scoll.css('left'));//转化为整型,滑块的当前高
+				var downPageX=e.pageX;//按下鼠标时的pagey
 				//按下时绑定移动事件
-				scoll.bind('mousemove',function(e){
-				 	scope.curLeft=e.pageX-scope.downPageX+scope.downLeft;
-				 	scoll.css('left',scope.curLeft+'px');
-				});
+				if (!hasbind) {//只有当前没有绑定才绑定，避免了多次绑定
+					console.log("bind");
+					elem.bind('mousemove',function(e){//注意这里不用滑块的div而是用控件的整体div是避免鼠标移出滑块区却没响应
+					 	hasbind=true;
+					 	curLeft=e.pageX-downPageX+downLeft;
+					 	console.log(e.pageX);
+					 	//console.log(scollline[0].clientWidth);//用js获取宽度
+					 	if (curLeft < scollline[0].clientWidth-scoll[0].clientWidth && curLeft > 0) {//限制滑块移动范围
+					 		console.log(curLeft);
+					 		scoll.css('left',curLeft+'px');	 
+					 	};	
+					});
+				};
 			});
 			//松开鼠标时解除移动事件
-			scoll.bind('mouseup',function(e){
-				scoll.unbind('mousemove');
+			elem.bind('mouseup',function(e){
+				hasbind=false;
+				elem.unbind('mousemove');
+				console.log("unbind");
 			});
+			//鼠标离开时也时解除移动事件
+
 		}
 	};
 });
