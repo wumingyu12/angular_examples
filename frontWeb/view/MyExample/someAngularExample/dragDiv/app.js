@@ -6,13 +6,14 @@ var MyApp=angular.module('myapp', []);
 2.鼠标移动时（mousemove），随着移动事件的发生，绑定的移动函数会不断的执行（每次具体执行过程为：计算当前pageY和之前记录下的pageY的差值，然后将“差值+之前记录的top值”得到当前滑块应该在的top值，最后将top值写到滑块的样式中。），滑块因为top不断变化，上下位置也就会不断变化。 
 3.鼠标松开时（mouseup），取鼠标消移动函数的绑定。
 */
-MyApp.directive('sr',function(){ 
+MyApp.directive('sr',function(){
+	//初始化控件的状态
 	return{
 		restrict:'EA',
 		scope:{
 			//按下鼠标时记录的top值
 			//按下鼠标时的pagey值
-			slwidth:'@',
+			//slwidth:'@',
 			wendu:'=wenduMd',
 		},
 		template:'<div style="background-color:rgb(230,230,230);height: 50%;width:100%;">'+
@@ -30,6 +31,9 @@ MyApp.directive('sr',function(){
 			var wendutext=elem.find("span").eq(0);//显示温度的文字
 			var hasbind=false;//变量用了避免异步处理中还没unbind又bind了
 			var curLeft;
+			//初始化控件的状态
+			
+			//初始化控件的状态结束
 			scoll.bind('mousedown',function(e){
 				console.log("down");
 				var downLeft=parseInt(scoll.css('left'));//转化为整型,滑块的当前高
