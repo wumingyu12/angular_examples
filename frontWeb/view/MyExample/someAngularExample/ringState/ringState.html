@@ -18,13 +18,16 @@
 		.my-main-box{
 			width: 200px;
 			height:200px;
-			background-color: rgba(111,222,111,0.4);
 		}
 	</style>
 </head>
 <body>
 	<div class="my-main-box" ng-controller="test">
 		<ringstate percent='percent'></ringstate>
+		<div>
+			<input type="text" ng-model="percent">
+		</div>
 	</div>
+
 </body>
 </html>

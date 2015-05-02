@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>css3渐变效果</title>
+	<style type="text/css">
+		.div1{
+			height:200px;
+			width: 200px;
+			/* Firefox 3.6+ */
+			 background: -moz-radial-gradient(circle, #ace, #f96);
+			 /* Safari 4-5, Chrome 1-9 */
+			 /* Can't specify a percentage size? Laaaaaame. */
+			 background: -webkit-gradient(radial, center center, 0, center center, 460, from(#ace), to(#f96));
+			 /* Safari 5.1+, Chrome 10+ */
+			 background: -webkit-radial-gradient(circle, #ace, #f96);  
+		}
+		.div2{
+			height:200px;
+			width: 200px;
+			border-radius: 100px;
+			box-shadow: 0px 0px 40px #666 ;/*box-shadow: h-shadow v-shadow blur spread color inset;*/
+		}
+	</style>
+</head>
+<body>
+	<div class="div1">
+		
+	</div>
+	<br/>
+	<div class="div2">
+
+	</div>
+
+</body>
+</html>
