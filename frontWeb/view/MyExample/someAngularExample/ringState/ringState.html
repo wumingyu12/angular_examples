@@ -10,22 +10,29 @@
 	<link rel="stylesheet" href="/frame/bootstrap-3.3.4/css/bootstrap.css">
 	<script src="/frame/angular_js/angular.js"></script>
 	<script src="app.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css"><!-- iconmoon的字体css -->
 	<style type="text/css">
 		html,body{
 			padding: 0px;
 			margin: 0px;
 		}
 		.my-main-box{
-			width: 200px;
-			height:200px;
+			width: 140px;
+			height:140px;
 		}
 	</style>
 </head>
 <body>
 	<div class="my-main-box" ng-controller="test">
-		<ringstate percent='percent'></ringstate>
+		<ringstate stvalue='stvalue' 
+					min-stvalue='10' 
+					max-stvalue='80' 
+					iconclass='icon-wendu'
+					type='温度'
+					unit='℃'
+					></ringstate>
 		<div>
-			<input type="text" ng-model="percent">
+			<input type="text" ng-model="stvalue">
 		</div>
 	</div>
 
