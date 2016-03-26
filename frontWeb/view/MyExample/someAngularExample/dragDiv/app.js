@@ -14,7 +14,7 @@ MyApp.directive('sr',function(){
 			//按下鼠标时记录的top值
 			//按下鼠标时的pagey值
 			//slwidth:'@',
-			wendu:'=wenduMd',
+			wendutaget:'=wenduMd',
 		},
 		template:'<div style="background-color:rgb(230,230,230);height: 50%;width:100%;">'+
 		'<h1 style="text-align:center;">目标温度:<span>{{wendu}}℃</span><h1>'+

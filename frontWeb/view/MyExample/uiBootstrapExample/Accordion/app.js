@@ -5,12 +5,12 @@ MyApp.controller('AccordionDemoCtrl', function ($scope) {
 
 	$scope.groups = [
 	    {
-	      title: 'Dynamic Group Header - 1',
-	      content: 'Dynamic Group Body - 1'
+	      'title': '项目1',
+	      'content': 'Dynamic Group Body - 11'
 	    },
 	    {
-	      title: 'Dynamic Group Header - 2',
-	      content: 'Dynamic Group Body - 2'
+	      'title': '项目2',
+	      'content': 'Dynamic Group Body - 22'
 	    }
 	];
 

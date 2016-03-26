@@ -39,6 +39,7 @@ MyApp.controller('ModalInstanceCtrl',[
 	function ($scope, $modalInstance, items) {
 
 		$scope.items = items;
+		console.log(items);
 		$scope.selected = {//会在前端的ngclick中改变
 			item: $scope.items[0]//会产生scope.selected.item的值，赋值默认为items[0]
 		};
